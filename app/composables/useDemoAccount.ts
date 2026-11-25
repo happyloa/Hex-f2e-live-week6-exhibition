@@ -1,5 +1,6 @@
 export function useDemoAccount() {
   const name = useState("account-display-name", () => "");
+  const ready = useState("account-ready", () => false);
 
   function setName(value: string) {
     name.value = value.trim().slice(0, 32);
@@ -20,7 +21,8 @@ export function useDemoAccount() {
     } catch {
       // Browser storage is optional for the demo account.
     }
+    ready.value = true;
   }
 
-  return { name, setName, restore };
+  return { name, ready, setName, restore };
 }

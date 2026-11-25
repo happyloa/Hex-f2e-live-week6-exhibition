@@ -7,12 +7,13 @@ if (action !== "sign-in" && action !== "sign-up") {
 }
 const signup = action === "sign-up";
 const title = signup ? "註冊" : "登入";
-const { setName } = useDemoAccount();
+const { ready, setName } = useDemoAccount();
 const displayName = ref("");
 const error = ref("");
 useSeoMeta({ title, robots: "noindex, nofollow" });
 
 async function submit() {
+  if (!ready.value) return;
   if (!displayName.value.trim()) {
     error.value = "請輸入顯示名稱。";
     return;
@@ -34,12 +35,15 @@ async function submit() {
           required
           maxlength="32"
           autocomplete="nickname"
+          :disabled="!ready"
           :aria-invalid="!!error || undefined"
           @input="error = ''"
         />
       </label>
       <p v-if="error" class="form-error" role="alert">{{ error }}</p>
-      <button class="button button--block" type="submit">{{ title }}</button>
+      <button class="button button--block" type="submit" :disabled="!ready">
+        {{ title }}
+      </button>
       <NuxtLink
         class="plain-link"
         :to="signup ? '/account/sign-in' : '/account/sign-up'"

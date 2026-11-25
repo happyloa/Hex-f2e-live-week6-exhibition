@@ -187,7 +187,8 @@ function buy() {
         v-if="isSignatureShow"
         name="geometry"
         class="aspect-[1110/400] w-full object-cover max-[450px]:aspect-[1.25]"
-        sizes="(min-width: 1110px) 1110px, 100vw"
+        sizes="(min-width: 1158px) 1110px, (min-width: 768px) calc(100vw - 48px), calc(100vw - 30px)"
+        preload-media="(min-width: 900px)"
         alt="由金屬三角面組成的建築立面"
       />
       <div class="grid gap-5" :class="isSignatureShow ? 'wide:grid-cols-[minmax(0,350px)_minmax(0,1fr)] wide:gap-[30px]' : undefined">

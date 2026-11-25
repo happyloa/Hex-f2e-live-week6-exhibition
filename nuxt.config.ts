@@ -6,6 +6,7 @@ export default defineNuxtConfig({
   devtools: { enabled: false },
   experimental: {
     defaults: { nuxtLink: { prefetch: false } },
+    payloadExtraction: false,
   },
   css: ["~/assets/css/main.css"],
   vite: { plugins: [tailwindcss()] },

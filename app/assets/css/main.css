@@ -2,7 +2,6 @@
 @import "swiper/css" layer(components);
 @import "swiper/css/pagination" layer(components);
 @import "@fontsource-variable/roboto";
-@import "@fontsource-variable/noto-sans-tc";
 
 @font-face {
   font-family: "Noto Sans TC Site";

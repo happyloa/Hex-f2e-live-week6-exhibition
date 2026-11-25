@@ -39,6 +39,8 @@ npm run dev
 
 `npm run verify` 會執行 TypeScript 檢查並產生靜態頁面。完成後可執行 `npm run preview`，透過 Wrangler 預覽與正式環境相同的靜態資產和 404 路由處理。
 
+效能檢測的範圍、調整與重測方式收錄於[效能檢測](docs/performance.md)。
+
 ## 部署
 
 GitHub Actions 會驗證對 `main` 的推送與 Pull Request。Cloudflare Workers 使用 `wrangler.jsonc` 中的 `.output/public` 靜態目錄。

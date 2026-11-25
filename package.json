@@ -1,0 +1,35 @@
+{
+  "name": "hex-f2e-live-week6-exhibition",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "dev": "nuxt dev",
+    "check": "nuxt typecheck",
+    "build": "nuxt generate",
+    "verify": "npm run check && npm run build",
+    "preview": "wrangler dev",
+    "deploy": "wrangler deploy"
+  },
+  "dependencies": {
+    "@fontsource-variable/noto-sans-tc": "^5.3.1",
+    "@fontsource-variable/roboto": "^5.2.9",
+    "@lucide/vue": "^1.77.0",
+    "nuxt": "^4.7.0",
+    "vue": "^3.5.46",
+    "vue-router": "^5.5.1"
+  },
+  "devDependencies": {
+    "typescript": "^6.0.3",
+    "vue-tsc": "^3.3.14",
+    "wrangler": "^4.167.0"
+  },
+  "overrides": {
+    "readdir-glob": {
+      "minimatch": "^11.0.9"
+    }
+  }
+}

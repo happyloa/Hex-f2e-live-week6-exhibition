@@ -30,7 +30,7 @@ function subscribe() {
         sizes="100vw"
         class="absolute inset-0 -z-20 size-full object-cover object-[51%_center] md:object-[center_46%]"
       />
-      <div class="shell pt-[26px] pb-9">
+      <div v-reveal class="shell pt-[26px] pb-9">
         <h2 id="newsletter-title" class="section-heading">
           想收到最新消息嗎？<br />快訂閱我們！
         </h2>

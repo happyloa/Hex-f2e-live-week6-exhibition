@@ -120,6 +120,16 @@
 }
 
 @layer components {
+  @variant motion-safe {
+    [data-reveal="visible"] {
+      @apply transition-[opacity,transform] duration-500 ease-out focus-within:transition-none;
+    }
+
+    [data-reveal="pending"]:not(:focus-within) {
+      @apply opacity-0 [transform:translateY(--spacing(4))];
+    }
+  }
+
   .shell {
     @apply mx-auto w-[calc(100%-2*var(--spacing-gutter-mobile))] max-w-site md:w-[calc(100%-2*var(--spacing-gutter-desktop))];
   }

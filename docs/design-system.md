@@ -24,3 +24,8 @@ EXHIBINECTION 使用 Tailwind CSS 4。全站的設計 token 和共用樣式集�
 - 表單使用 `field`。欄位驗證透過 `aria-invalid` 著色，`form-error` 提供錯誤文字樣式。`plain-link` 統一內文連結的顏色與底線。
 - 全站使用 `focus-visible` 外框，版面狀態使用 `aria-*`、`data-*`、`peer-*` 對應 utilities。共用設定遵循作業系統的減少動態效果。
 - 主頁與橫向分類使用 `scrollbar-branded`，深色購物抽屜使用 `scrollbar-branded-dark`。選取文字為酒紅底白字，高對比模式採用系統捲軸及反白色。
+
+## 動態效果
+
+- 在首屏以下的展覽卡片與內容區塊加上 `v-reveal`。區塊接近視窗時淡入並輕微上移，每個區塊進場一次。首屏與取得鍵盤焦點的內容立即顯示。
+- 購物車抽屜使用 Vue Transition 和 Tailwind utilities 從右側滑入、滑出，並由原生對話框管理焦點與 Escape。作業系統開啟減少動態效果時，直接切換顯示狀態。

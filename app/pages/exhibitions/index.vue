@@ -21,6 +21,7 @@ useSeoMeta({
     <article
       v-for="(item, index) in visible"
       :key="item.id"
+      v-reveal
       class="group/band text-brand odd:bg-brand odd:text-white"
     >
       <div class="

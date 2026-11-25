@@ -39,7 +39,7 @@ useSeoMeta({ title: "首頁", ogTitle: "EXHIBINECTION 策展與售票" });
   <CategoryNav />
   <section class="shell pt-[clamp(26px,5vw,64px)] pb-[clamp(28px,5vw,58px)]" aria-labelledby="featured-title">
     <h2 id="featured-title" class="section-heading">熱門特展</h2>
-    <article v-for="item in featured" :key="item.id" class="
+    <article v-for="item in featured" :key="item.id" v-reveal class="
       mt-[18px] bg-surface md:mt-5 md:grid md:min-h-[350px]
       md:grid-cols-[minmax(250px,31.55%)_minmax(0,1fr)]
     ">
@@ -86,7 +86,7 @@ useSeoMeta({ title: "首頁", ogTitle: "EXHIBINECTION 策展與售票" });
       </div>
     </article>
   </section>
-  <section class="shell" aria-labelledby="live-title">
+  <section v-reveal class="shell" aria-labelledby="live-title">
     <h2 id="live-title" class="section-heading">直播回顧</h2>
     <div class="relative isolate mt-[18px] min-h-[380px] bg-live-stage md:min-h-[440px]">
       <ExhibitImage

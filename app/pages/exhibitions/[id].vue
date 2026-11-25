@@ -202,7 +202,7 @@ function buy() {
           sizes="(min-width: 900px) 350px, 100vw"
           alt="交錯的白色鋼構與展場樓梯"
         />
-        <div class="grid content-start gap-3">
+        <div v-reveal class="grid content-start gap-3">
           <h2 id="story-title" class="text-xl font-bold">
             {{ isSignatureShow ? "藝饗宴" : "展覽介紹" }}
           </h2>

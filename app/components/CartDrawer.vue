@@ -72,12 +72,13 @@ watch(
 
 <style scoped>
 .cart-drawer {
+  --cart-top: 56px;
   position: fixed;
-  inset: 0 0 0 auto;
+  inset: var(--cart-top) 0 0 auto;
   width: min(100%, 540px);
   max-width: 100%;
   max-height: 100dvh;
-  height: 100dvh;
+  height: calc(100dvh - var(--cart-top));
   margin: 0;
   border: 0;
   padding: 0;
@@ -86,7 +87,11 @@ watch(
   overflow: hidden;
 }
 .cart-drawer::backdrop {
-  background: #0005;
+  background: linear-gradient(
+    to bottom,
+    transparent var(--cart-top),
+    #0004 var(--cart-top)
+  );
 }
 .drawer-inner {
   display: grid;
@@ -120,8 +125,7 @@ footer p {
 }
 @media (min-width: 768px) {
   .cart-drawer {
-    inset-block-start: 80px;
-    height: calc(100dvh - 80px);
+    --cart-top: 80px;
   }
   .drawer-inner {
     gap: 16px;

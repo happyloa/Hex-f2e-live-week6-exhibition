@@ -13,12 +13,12 @@ useSeoMeta({ title: "示範帳戶", robots: "noindex, nofollow" });
 </script>
 
 <template>
-  <div class="shell support-page account-page">
+  <div class="shell support-page max-w-[640px]">
     <h1 class="section-heading">示範帳戶</h1>
     <div class="support-panel">
       <form
         v-if="name"
-        class="profile-form"
+        class="grid gap-3"
         @submit.prevent="setName(displayName)"
       >
         <label class="field">
@@ -53,7 +53,7 @@ useSeoMeta({ title: "示範帳戶", robots: "noindex, nofollow" });
           >註冊</NuxtLink
         >
       </div>
-      <div class="account-links">
+      <div class="grid justify-items-start gap-3">
         <NuxtLink class="plain-link" to="/favorites">我的收藏</NuxtLink>
         <NuxtLink v-if="order" class="plain-link" to="/checkout/complete"
           >最近的示範訂單</NuxtLink
@@ -62,17 +62,3 @@ useSeoMeta({ title: "示範帳戶", robots: "noindex, nofollow" });
     </div>
   </div>
 </template>
-
-<style scoped>
-.account-page {
-  max-width: 640px;
-}
-.profile-form,
-.account-links {
-  display: grid;
-  gap: 12px;
-}
-.account-links {
-  justify-items: start;
-}
-</style>

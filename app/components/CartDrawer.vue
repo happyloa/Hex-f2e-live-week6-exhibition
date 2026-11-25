@@ -23,14 +23,22 @@ watch(
 <template>
   <dialog
     ref="dialog"
-    class="cart-drawer"
+    class="
+      fixed inset-[var(--cart-top)_0_0_auto] m-0 h-[calc(100dvh-var(--cart-top))] max-h-dvh
+      w-[min(100%,540px)] max-w-full overflow-hidden border-0 bg-ink p-0 text-white [--cart-top:56px]
+      backdrop:[background:linear-gradient(to_bottom,transparent_var(--cart-top),#0004_var(--cart-top))]
+      md:[--cart-top:80px]
+    "
     aria-labelledby="drawer-title"
     @cancel.prevent="isCartOpen = false"
     @click.self="isCartOpen = false"
   >
-    <div class="drawer-inner">
-      <header>
-        <h2 id="drawer-title">Cart List</h2>
+    <div class="
+      grid h-full grid-rows-[auto_minmax(0,1fr)_auto] gap-3 px-gutter-mobile py-4 md:gap-4 md:px-8
+      md:py-6
+    ">
+      <header class="flex items-center justify-between gap-2">
+        <h2 id="drawer-title" class="text-[clamp(1.5rem,4vw,2rem)] font-bold">Cart List</h2>
         <button
           type="button"
           class="icon-button"
@@ -40,12 +48,12 @@ watch(
           <MaterialIcon name="close" />
         </button>
       </header>
-      <div class="cart-scroll">
+      <div class="scrollbar-branded-dark overflow-y-auto">
         <CartItems v-if="count" variant="drawer" editable />
-        <p v-else class="empty">購物車目前沒有票券。</p>
+        <p v-else class="py-8">購物車目前沒有票券。</p>
       </div>
-      <footer>
-        <p>
+      <footer class="flex items-center justify-between gap-2">
+        <p class="flex flex-wrap gap-y-[7px] gap-x-[clamp(8px,2vw,24px)]">
           小計 <strong>{{ newTaiwanDollars(subtotal) }}</strong>
         </p>
         <NuxtLink
@@ -68,74 +76,3 @@ watch(
     </div>
   </dialog>
 </template>
-
-<style scoped>
-.cart-drawer {
-  --cart-top: 56px;
-  position: fixed;
-  inset: var(--cart-top) 0 0 auto;
-  width: min(100%, 540px);
-  max-width: 100%;
-  max-height: 100dvh;
-  height: calc(100dvh - var(--cart-top));
-  margin: 0;
-  border: 0;
-  padding: 0;
-  background: #080808;
-  color: white;
-  overflow: hidden;
-}
-.cart-drawer::backdrop {
-  background: linear-gradient(
-    to bottom,
-    transparent var(--cart-top),
-    #0004 var(--cart-top)
-  );
-}
-.drawer-inner {
-  display: grid;
-  height: 100%;
-  grid-template-rows: auto minmax(0, 1fr) auto;
-  gap: 12px;
-  padding: 16px 15px;
-}
-header,
-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-}
-h2 {
-  font-size: clamp(1.5rem, 4vw, 2rem);
-}
-.cart-scroll {
-  --scroll-track: #292126;
-  --scroll-thumb: #d485ad;
-  overflow-y: auto;
-  scrollbar-color: var(--scroll-thumb) var(--scroll-track);
-  scrollbar-width: thin;
-}
-.empty {
-  padding-block: 32px;
-}
-footer p {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 7px clamp(8px, 2vw, 24px);
-}
-@media (min-width: 768px) {
-  .cart-drawer {
-    --cart-top: 80px;
-  }
-  .drawer-inner {
-    gap: 16px;
-    padding: 24px 32px;
-  }
-}
-@media (forced-colors: active) {
-  .cart-scroll {
-    scrollbar-color: auto;
-  }
-}
-</style>

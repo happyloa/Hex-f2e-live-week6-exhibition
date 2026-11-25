@@ -1,3 +1,4 @@
+import tailwindcss from "@tailwindcss/vite";
 import { exhibitions } from "./app/data/exhibitions";
 
 export default defineNuxtConfig({
@@ -7,6 +8,7 @@ export default defineNuxtConfig({
     defaults: { nuxtLink: { prefetch: false } },
   },
   css: ["~/assets/css/main.css"],
+  vite: { plugins: [tailwindcss()] },
   app: {
     head: {
       htmlAttrs: { lang: "zh-Hant-TW" },
@@ -19,7 +21,14 @@ export default defineNuxtConfig({
         { name: "theme-color", content: "#630834" },
         { property: "og:site_name", content: "EXHIBINECTION" },
       ],
-      link: [{ rel: "icon", type: "image/svg+xml", href: "/favicon.svg" }],
+      link: [
+        {
+          rel: "icon",
+          type: "image/webp",
+          sizes: "64x64",
+          href: "/images/brand/favicon.webp",
+        },
+      ],
     },
   },
   nitro: {

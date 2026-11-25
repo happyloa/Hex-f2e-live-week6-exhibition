@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { A11y, Keyboard, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/vue";
-import "swiper/css";
-import "swiper/css/pagination";
 import { exhibitionPath, findExhibition } from "~/data/exhibitions";
 
 const props = defineProps<{ exclude?: string }>();
@@ -21,10 +19,23 @@ const recommended = computed(() =>
 </script>
 
 <template>
-  <section class="shell recommendations" aria-labelledby="recommend-title">
+  <section
+    class="shell pt-[clamp(24px,5vw,60px)] pb-[clamp(28px,4.4vw,56px)]"
+    aria-labelledby="recommend-title"
+  >
     <h2 id="recommend-title" class="section-heading">猜你也喜歡…</h2>
     <Swiper
-      class="recommend-list"
+      class="
+        recommend-list mt-5 [--swiper-pagination-color:var(--color-brand)] md:pb-8 desktop:ml-[8.5%]
+        [&_.swiper-wrapper]:m-0 [&_.swiper-wrapper]:list-none [&_.swiper-wrapper]:p-0
+        md:[&_.swiper-slide]:w-[min(350px,44%)] md:[&_.swiper-pagination-bullet]:mx-0
+        md:[&_.swiper-pagination-bullet]:size-6 md:[&_.swiper-pagination-bullet]:border-8
+        md:[&_.swiper-pagination-bullet]:border-white max-md:[&_.swiper-wrapper]:grid
+        max-md:[&_.swiper-wrapper]:h-auto max-md:[&_.swiper-wrapper]:gap-[18px]
+        max-md:[&_.swiper-wrapper]:transform-none! max-md:[&_.swiper-slide]:m-0!
+        max-md:[&_.swiper-slide]:w-full max-md:[&_.swiper-slide:nth-child(n+4)]:hidden
+        max-md:[&_.swiper-pagination]:hidden
+      "
       wrapper-tag="ul"
       :modules="modules"
       :enabled="false"
@@ -42,95 +53,32 @@ const recommended = computed(() =>
         slideRole: 'listitem',
       }"
     >
-      <SwiperSlide v-for="item in recommended" :key="item.id" tag="li">
+      <SwiperSlide
+        v-for="item in recommended"
+        :key="item.id"
+        class="h-auto"
+        tag="li"
+      >
         <NuxtLink
-          class="recommend-card"
+          class="group block no-underline"
           :to="exhibitionPath(item.id)"
           draggable="false"
         >
           <ExhibitImage
-            class="recommend-image"
+            class="aspect-square w-full object-cover"
             :name="item.image"
             :alt="item.alt"
+            sizes="(min-width: 768px) 350px, calc(100vw - 30px)"
             draggable="false"
           />
-          <h3>{{ item.title }}</h3>
-          <p>${{ item.price }}</p>
+          <h3
+            class="pt-1 text-lg font-bold group-hover:text-brand group-hover:underline"
+          >
+            {{ item.title }}
+          </h3>
+          <p class="mt-0.5">${{ item.price }}</p>
         </NuxtLink>
       </SwiperSlide>
     </Swiper>
   </section>
 </template>
-
-<style scoped>
-.recommendations {
-  padding-block: clamp(24px, 5vw, 60px) clamp(28px, 4.4vw, 56px);
-}
-.recommend-list {
-  --swiper-pagination-color: var(--wine);
-  margin-top: 20px;
-}
-.recommend-list :deep(.swiper-wrapper) {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-.recommend-list :deep(.swiper-slide) {
-  height: auto;
-}
-.recommend-card {
-  display: block;
-  text-decoration: none;
-}
-.recommend-image {
-  width: 100%;
-  aspect-ratio: 1;
-  object-fit: cover;
-}
-.recommend-card h3 {
-  padding-top: 4px;
-  font-size: 1.125rem;
-}
-.recommend-card:hover h3 {
-  color: var(--wine);
-  text-decoration: underline;
-}
-.recommend-card p {
-  margin-top: 2px;
-}
-@media (min-width: 768px) {
-  .recommend-list {
-    padding-bottom: 32px;
-  }
-  .recommend-list :deep(.swiper-slide) {
-    width: min(350px, 44%);
-  }
-  .recommend-list :deep(.swiper-pagination-bullet) {
-    width: 24px;
-    height: 24px;
-    border: 8px solid white;
-    margin-inline: 0;
-  }
-}
-@media (max-width: 767px) {
-  .recommend-list :deep(.swiper-wrapper) {
-    display: grid;
-    gap: 18px;
-    height: auto;
-    transform: none !important;
-  }
-  .recommend-list :deep(.swiper-slide) {
-    width: 100%;
-    margin: 0 !important;
-  }
-  .recommend-list :deep(.swiper-slide:nth-child(n + 4)),
-  .recommend-list :deep(.swiper-pagination) {
-    display: none;
-  }
-}
-@media (min-width: 1050px) {
-  .recommend-list {
-    margin-left: 8.5%;
-  }
-}
-</style>

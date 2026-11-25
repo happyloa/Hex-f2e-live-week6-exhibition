@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { imageWidths, type ExhibitImageName } from "~/data/exhibitions";
+import { exhibitImages, type ExhibitImageName } from "~/data/exhibitImages";
 
 const props = withDefaults(
   defineProps<{
@@ -10,8 +10,9 @@ const props = withDefaults(
   }>(),
   { alt: "", sizes: "(min-width: 900px) 33vw, 100vw" },
 );
-const widths = computed(() => imageWidths[props.name]);
-const source = (width: number) => `/images/${props.name}-${width}.webp`;
+const image = computed(() => exhibitImages[props.name]);
+const widths = computed(() => image.value.widths);
+const source = (width: number) => `/images/${image.value.folder}/${props.name}-${width}.webp`;
 </script>
 
 <template>

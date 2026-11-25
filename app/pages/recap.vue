@@ -7,20 +7,23 @@ useSeoMeta({
 </script>
 
 <template>
-  <article class="shell recap">
-    <header>
-      <p class="recap-label">直播文字回顧</p>
+  <article class="shell grid gap-[25px] py-[clamp(30px,6vw,72px)]">
+    <header class="grid gap-2">
+      <p class="font-bold text-brand">直播文字回顧</p>
       <h1 class="section-heading">開幕對談：藝術展演巡禮</h1>
       <p>跟著導覽走進展場，從動線、材質和光線理解策展如何影響觀看體驗。</p>
     </header>
     <ExhibitImage
-      class="recap-photo"
+      class="aspect-[2.6] min-h-[180px] w-full object-cover"
       name="live-gallery"
       alt="觀眾走過展牆與大型畫作"
       sizes="(min-width: 1110px) 1110px, 95vw"
       priority
     />
-    <div class="recap-points">
+    <div class="
+      grid gap-x-6 gap-y-3 min-[760px]:grid-cols-3 [&>section]:border-t-2 [&>section]:border-brand
+      [&>section]:py-3 [&_h2]:mb-[5px] [&_h2]:text-xl [&_h2]:font-bold
+    ">
       <section>
         <h2>展場動線</h2>
         <p>
@@ -48,42 +51,3 @@ useSeoMeta({
     </div>
   </article>
 </template>
-
-<style scoped>
-.recap {
-  display: grid;
-  gap: 25px;
-  padding-block: clamp(30px, 6vw, 72px);
-}
-.recap header {
-  display: grid;
-  gap: 8px;
-}
-.recap-label {
-  color: var(--wine);
-  font-weight: 700;
-}
-.recap-photo {
-  width: 100%;
-  aspect-ratio: 2.6;
-  min-height: 180px;
-  object-fit: cover;
-}
-.recap-points {
-  display: grid;
-  gap: 12px 24px;
-}
-.recap-points section {
-  border-top: 2px solid var(--wine);
-  padding-block: 12px;
-}
-.recap-points h2 {
-  margin-bottom: 5px;
-  font-size: 1.25rem;
-}
-@media (min-width: 760px) {
-  .recap-points {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-}
-</style>

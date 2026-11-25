@@ -23,10 +23,10 @@ async function submit() {
 </script>
 
 <template>
-  <div class="shell support-page account-form">
+  <div class="shell support-page max-w-[540px]">
     <h1 class="section-heading">{{ title }}</h1>
     <form class="support-panel" @submit.prevent="submit">
-      <p class="muted">輸入顯示名稱即可使用這個分頁的示範帳戶。</p>
+      <p class="text-muted">輸入顯示名稱即可使用這個分頁的示範帳戶。</p>
       <label class="field">
         顯示名稱
         <input
@@ -49,9 +49,3 @@ async function submit() {
     </form>
   </div>
 </template>
-
-<style scoped>
-.account-form {
-  max-width: 540px;
-}
-</style>

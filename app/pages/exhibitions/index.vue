@@ -17,138 +17,54 @@ useSeoMeta({
 
 <template>
   <h1 class="sr-only">{{ category ? `${category.label}展覽` : "展覽一覽" }}</h1>
-  <div v-if="visible.length" class="exhibition-list">
+  <div v-if="visible.length">
     <article
       v-for="(item, index) in visible"
       :key="item.id"
-      class="listing-band"
+      class="group/band text-brand odd:bg-brand odd:text-white"
     >
-      <div class="shell listing-inner">
-        <div class="listing-copy">
-          <h2>
-            <NuxtLink :to="exhibitionPath(item.id)">{{ item.title }}</NuxtLink>
+      <div class="
+        shell grid gap-3.5 pt-7 pb-8 wide:min-h-[417px]
+        wide:grid-cols-[minmax(260px,350px)_minmax(0,445px)_60px] wide:content-center wide:items-start
+        wide:gap-[30px] wide:py-[65px] wide:group-even/band:justify-end
+      ">
+        <div class="wide:pt-[5px]">
+          <h2 class="text-[clamp(1.65rem,4.5vw,2.5rem)] leading-[1.23] font-bold">
+            <NuxtLink class="no-underline hover:underline" :to="exhibitionPath(item.id)">{{ item.title }}</NuxtLink>
           </h2>
-          <p class="description">{{ item.description }}</p>
-          <NuxtLink class="listing-link" :to="exhibitionPath(item.id)"
+          <p class="mt-2.5 wide:mt-[25px]">{{ item.description }}</p>
+          <NuxtLink class="mt-1.5 inline-flex min-h-control items-center font-semibold underline underline-offset-[.23em]" :to="exhibitionPath(item.id)"
             >展覽詳情<span class="sr-only">：{{ item.title }}</span></NuxtLink
           >
         </div>
         <NuxtLink
-          class="listing-media"
+          class="row-start-1 wide:row-auto"
           :to="exhibitionPath(item.id)"
           :aria-label="`查看${item.title}`"
         >
           <ExhibitImage
+            class="aspect-[1.75] w-full object-cover wide:aspect-[445/285]"
             :name="item.image"
             :alt="item.alt"
-            sizes="(min-width: 900px) 445px, 100vw"
+            sizes="(min-width: 900px) 445px, (min-width: 768px) calc(100vw - 48px), calc(100vw - 30px)"
             :priority="index === 0"
           />
         </NuxtLink>
-        <p class="date">
+        <p class="
+          row-start-2 flex items-center gap-2 font-bold wide:row-auto wide:w-[3.5ch] wide:flex-col
+          wide:items-start wide:gap-0 wide:self-end wide:text-xl
+        ">
           <span>{{ item.start }}</span
           ><span aria-hidden="true">—</span><span>{{ item.end }}</span>
         </p>
       </div>
     </article>
   </div>
-  <section v-else class="shell listing-empty">
+  <section v-else class="shell grid justify-items-start gap-4 py-[72px]">
     <h2 class="section-heading">目前沒有{{ category?.label }}展覽</h2>
     <NuxtLink class="button button--outline" to="/exhibitions"
       >瀏覽全部展覽</NuxtLink
     >
   </section>
-  <Recommendations />
+  <LazyRecommendations :hydrate-on-visible="{ rootMargin: '250px' }" />
 </template>
-
-<style scoped>
-.listing-band {
-  color: var(--wine);
-}
-.listing-band:nth-child(odd) {
-  background: var(--wine);
-  color: white;
-}
-.listing-inner {
-  display: grid;
-  gap: 14px;
-  padding-block: 28px 32px;
-}
-.listing-media {
-  grid-row: 1;
-}
-.listing-media img {
-  width: 100%;
-  aspect-ratio: 1.75;
-  object-fit: cover;
-}
-.listing-copy h2 {
-  font-size: clamp(1.65rem, 4.5vw, 2.5rem);
-  line-height: 1.23;
-}
-.listing-copy h2 a {
-  text-decoration: none;
-}
-.listing-copy h2 a:hover,
-.listing-link:hover {
-  text-decoration: underline;
-}
-.description {
-  margin-top: 10px;
-}
-.listing-link {
-  display: inline-flex;
-  min-height: 44px;
-  align-items: center;
-  margin-top: 6px;
-  font-weight: 600;
-  text-underline-offset: 0.23em;
-}
-.date {
-  grid-row: 2;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-weight: 700;
-}
-.listing-empty {
-  display: grid;
-  justify-items: start;
-  gap: 16px;
-  padding-block: 72px;
-}
-@media (min-width: 900px) {
-  .listing-inner {
-    min-height: 417px;
-    grid-template-columns: minmax(260px, 350px) minmax(0, 445px) 60px;
-    align-content: center;
-    align-items: start;
-    gap: 30px;
-    padding-block: 65px;
-  }
-  .listing-band:nth-child(even) .listing-inner {
-    justify-content: end;
-  }
-  .listing-media {
-    grid-row: auto;
-  }
-  .listing-media img {
-    aspect-ratio: 445 / 285;
-  }
-  .listing-copy {
-    padding-top: 5px;
-  }
-  .description {
-    margin-top: 25px;
-  }
-  .date {
-    grid-row: auto;
-    align-self: end;
-    flex-direction: column;
-    align-items: start;
-    width: 3.5ch;
-    gap: 0;
-    font-size: 1.25rem;
-  }
-}
-</style>

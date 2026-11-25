@@ -10,24 +10,24 @@ useSeoMeta({ title: "我的收藏", robots: "noindex, nofollow" });
 <template>
   <div class="shell support-page">
     <h1 class="section-heading">我的收藏</h1>
-    <p v-if="!ready" class="support-panel muted">正在讀取收藏…</p>
+    <p v-if="!ready" class="support-panel text-muted">正在讀取收藏…</p>
     <div v-else-if="!favorites.length" class="support-panel">
       <p>目前沒有收藏的展覽。</p>
       <div class="support-actions">
         <NuxtLink class="button" to="/exhibitions">瀏覽展覽</NuxtLink>
       </div>
     </div>
-    <ul v-else class="favorites">
-      <li v-for="item in favorites" :key="item.id" class="favorite">
-        <NuxtLink :to="exhibitionPath(item.id)" class="favorite-link">
-          <ExhibitImage :name="item.image" sizes="110px" />
+    <ul v-else class="mt-5 grid list-none gap-3 p-0">
+      <li v-for="item in favorites" :key="item.id" class="flex items-center justify-between gap-2.5 border border-line p-2.5">
+        <NuxtLink :to="exhibitionPath(item.id)" class="group flex items-center gap-3 text-inherit no-underline">
+          <ExhibitImage class="aspect-[1.4] w-[clamp(54px,18vw,110px)] object-cover" :name="item.image" sizes="110px" />
           <div>
-            <h2>{{ item.title }}</h2>
-            <p>{{ item.start }} — {{ item.end }}</p>
+            <h2 class="text-base font-bold group-hover:underline">{{ item.title }}</h2>
+            <p class="text-sm text-muted">{{ item.start }} — {{ item.end }}</p>
           </div>
         </NuxtLink>
         <button
-          class="button button--outline"
+          class="button button--outline shrink-0 px-2.5"
           type="button"
           :aria-label="`移除收藏 ${item.title}`"
           @click="toggle(item.id)"
@@ -38,47 +38,3 @@ useSeoMeta({ title: "我的收藏", robots: "noindex, nofollow" });
     </ul>
   </div>
 </template>
-
-<style scoped>
-.favorites {
-  display: grid;
-  gap: 12px;
-  margin: 20px 0 0;
-  padding: 0;
-  list-style: none;
-}
-.favorite {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10px;
-  border: 1px solid var(--line);
-  padding: 10px;
-}
-.favorite-link {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  color: inherit;
-  text-decoration: none;
-}
-.favorite-link:hover h2 {
-  text-decoration: underline;
-}
-.favorite-link img {
-  width: clamp(54px, 18vw, 110px);
-  aspect-ratio: 1.4;
-  object-fit: cover;
-}
-.favorite h2 {
-  font-size: 1rem;
-}
-.favorite p {
-  color: var(--muted);
-  font-size: 0.875rem;
-}
-.favorite button {
-  flex-shrink: 0;
-  padding-inline: 10px;
-}
-</style>

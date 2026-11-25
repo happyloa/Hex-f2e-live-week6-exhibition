@@ -19,14 +19,14 @@ useSeoMeta({ title: `${item.title}｜線上展間`, robots: "noindex, nofollow" 
 </script>
 
 <template>
-  <section class="shell support-page visit-page">
+  <section class="shell support-page max-w-[920px]">
     <h1 class="section-heading">{{ item.title }}・線上展間</h1>
-    <p v-if="!ready" class="support-panel muted">正在讀取示範票券…</p>
+    <p v-if="!ready" class="support-panel text-muted">正在讀取示範票券…</p>
     <div v-else-if="tickets.length && order" class="support-panel">
-      <div class="visit-details">
+      <div class="flex flex-wrap items-end justify-between gap-x-4 gap-y-2">
         <div>
-          <h2>示範展覽通過代碼</h2>
-          <p class="visit-code">
+          <h2 class="text-base font-bold">示範展覽通過代碼</h2>
+          <p class="text-[1.35rem] text-brand">
             <code>{{ order.code }}</code>
           </p>
         </div>
@@ -41,7 +41,7 @@ useSeoMeta({ title: `${item.title}｜線上展間`, robots: "noindex, nofollow" 
         </p>
       </div>
       <ExhibitImage
-        class="visit-image"
+        class="aspect-[2] w-full object-cover"
         :name="item.image"
         :alt="item.alt"
         sizes="(min-width: 900px) 800px, 95vw"
@@ -66,28 +66,3 @@ useSeoMeta({ title: `${item.title}｜線上展間`, robots: "noindex, nofollow" 
     </div>
   </section>
 </template>
-
-<style scoped>
-.visit-page {
-  max-width: 920px;
-}
-.visit-details {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px 16px;
-  align-items: end;
-  justify-content: space-between;
-}
-.visit-details h2 {
-  font-size: 1rem;
-}
-.visit-code {
-  color: var(--wine);
-  font-size: 1.35rem;
-}
-.visit-image {
-  width: 100%;
-  aspect-ratio: 2;
-  object-fit: cover;
-}
-</style>

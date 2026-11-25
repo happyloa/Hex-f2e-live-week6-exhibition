@@ -62,28 +62,32 @@ function buy() {
 </script>
 
 <template>
-  <div class="shell detail-page">
-    <section v-if="voucher" class="voucher" aria-label="示範展覽通過代碼">
+  <div class="shell pt-[clamp(25px,6.4vw,80px)]">
+    <section v-if="voucher" class="mb-[18px] flex flex-wrap justify-between gap-2 border border-brand px-4 py-3 text-brand" aria-label="示範展覽通過代碼">
       <strong>示範展覽通過代碼</strong>
       <code>{{ voucher.code }}</code>
     </section>
-    <div class="detail-summary">
-      <section class="exhibit-intro" aria-labelledby="detail-title">
-        <div class="exhibit-media">
+    <div class="grid gap-x-[30px] gap-y-6 wide:grid-cols-2">
+      <section aria-labelledby="detail-title">
+        <div class="relative">
           <ExhibitImage
-            class="exhibit-image"
+            class="aspect-[540/256] w-full object-cover max-[450px]:aspect-[1.55]"
             :name="item.image"
             :alt="item.alt"
-            sizes="(min-width: 900px) 540px, 100vw"
+            sizes="(min-width: 900px) 540px, (min-width: 768px) calc(100vw - 48px), calc(100vw - 30px)"
             priority
           />
-          <p class="overlay-date" aria-hidden="true">
+          <p class="
+            hidden wide:absolute wide:top-1/2 wide:right-6 wide:flex wide:w-[3ch] wide:-translate-y-1/2
+            wide:flex-col wide:text-lg wide:font-bold wide:text-white
+            wide:[text-shadow:0_0_8px_black,0_1px_2px_black]
+          " aria-hidden="true">
             <span>{{ item.start }}</span><span>—</span
             ><span>{{ item.end }}</span>
           </p>
         </div>
-        <div class="detail-title">
-          <h1 id="detail-title">{{ item.title }}</h1>
+        <div class="flex flex-wrap items-center gap-x-[5px] pt-[3px] [&_.icon-button]:min-w-[35px]">
+          <h1 id="detail-title" class="text-xl font-bold">{{ item.title }}</h1>
           <a
             class="icon-button"
             :href="facebookShare.href"
@@ -91,7 +95,7 @@ function buy() {
             rel="noopener noreferrer"
             aria-label="分享到 Facebook（開啟新分頁）"
           >
-            <img src="/images/facebook.svg" width="20" height="20" alt="" />
+            <img src="/images/brand/facebook.webp" width="20" height="20" alt="" />
           </a>
           <button
             class="icon-button"
@@ -101,10 +105,10 @@ function buy() {
           >
             <MaterialIcon name="link" :size="20" />
           </button>
-          <p class="mobile-date">{{ item.start }} — {{ item.end }}</p>
+          <p class="ml-auto text-sm font-bold wide:sr-only">{{ item.start }} — {{ item.end }}</p>
         </div>
-        <p class="description">{{ item.description }}</p>
-        <p v-if="shareNotice" class="share-status" role="status">
+        <p class="text-copy">{{ item.description }}</p>
+        <p v-if="shareNotice" class="mt-1.5 text-sm text-brand" role="status">
           {{ shareNotice }}
         </p>
         <label v-if="shareUrl" class="field"
@@ -117,40 +121,47 @@ function buy() {
       </section>
       <section
         id="tickets"
-        class="ticket-picker"
+        class="grid content-start gap-[18px] wide:gap-[42px]"
         aria-labelledby="ticket-title"
       >
         <h2 id="ticket-title" class="sr-only">選擇票券</h2>
-        <div class="ticket-controls">
-          <div class="ticket-amount">
+        <div class="
+          grid grid-cols-2 items-center text-center max-[450px]:grid-cols-1 max-[450px]:gap-[18px]
+          wide:min-h-64
+        ">
+          <div class="grid justify-items-center [&_output]:text-[1.875rem]">
             <QuantityControl
               :quantity="quantity"
               label="選擇票券張數"
               :disabled="!cartReady"
               @change="quantity = $event"
             />
-            <p class="muted">張</p>
+            <p class="text-muted">張</p>
           </div>
-          <div class="ticket-pricing">
-            <p class="ticket-price" aria-live="polite">
+          <div class="wide:grid wide:min-h-full wide:content-center wide:border-l wide:border-divider">
+            <p class="text-[clamp(1.5rem,4vw,2.5rem)] font-bold" aria-live="polite">
               {{ newTaiwanDollars(unitPrice * quantity) }}
             </p>
-            <fieldset class="types" :disabled="!cartReady">
-              <legend>票種</legend>
-              <label v-for="ticket in ticketTypes" :key="ticket.id">
+            <fieldset class="types mx-auto mt-[11px] grid w-full max-w-48 grid-cols-3 border-0 p-0" :disabled="!cartReady">
+              <legend class="mx-auto text-sm text-muted">票種</legend>
+              <label class="min-w-0 cursor-pointer" v-for="ticket in ticketTypes" :key="ticket.id">
                 <input
                   v-model="type"
-                  class="sr-only"
+                  class="peer sr-only"
                   type="radio"
                   name="ticket-type"
                   :value="ticket.id"
                 />
-                <span>{{ ticket.label }}</span>
+                <span class="
+                  grid min-h-field-control place-items-center border-b-2 border-transparent whitespace-nowrap
+                  peer-checked:border-b-accent peer-checked:text-brand peer-focus-visible:outline-2
+                  peer-focus-visible:-outline-offset-1 peer-focus-visible:outline-accent
+                ">{{ ticket.label }}</span>
               </label>
             </fieldset>
           </div>
         </div>
-        <div class="detail-actions">
+        <div class="grid grid-cols-2 gap-3 wide:gap-[30px]">
           <button
             class="button button--outline"
             type="button"
@@ -171,34 +182,37 @@ function buy() {
         </div>
       </section>
     </div>
-    <section class="detail-story" aria-labelledby="story-title">
+    <section class="mt-[clamp(32px,5vw,48px)] grid gap-7" aria-labelledby="story-title">
       <ExhibitImage
         v-if="isSignatureShow"
         name="geometry"
-        class="story-banner"
+        class="aspect-[1110/400] w-full object-cover max-[450px]:aspect-[1.25]"
         sizes="(min-width: 1110px) 1110px, 100vw"
         alt="由金屬三角面組成的建築立面"
       />
-      <div class="story-grid">
+      <div class="grid gap-5" :class="isSignatureShow ? 'wide:grid-cols-[minmax(0,350px)_minmax(0,1fr)] wide:gap-[30px]' : undefined">
         <ExhibitImage
           v-if="isSignatureShow"
           name="architecture"
-          class="story-image"
+          class="
+            aspect-[350/420] w-full object-cover max-[450px]:order-1 max-[450px]:aspect-square
+            wide:aspect-[350/560]
+          "
           sizes="(min-width: 900px) 350px, 100vw"
           alt="交錯的白色鋼構與展場樓梯"
         />
-        <div class="story-text">
-          <h2 id="story-title">
+        <div class="grid content-start gap-3">
+          <h2 id="story-title" class="text-xl font-bold">
             {{ isSignatureShow ? "藝饗宴" : "展覽介紹" }}
           </h2>
-          <p v-if="isSignatureShow" class="story-subtitle">
+          <p v-if="isSignatureShow">
             Celebration of Style and Art
           </p>
-          <p>{{ item.description }}</p>
-          <p v-if="isSignatureShow">
+          <p class="text-muted">{{ item.description }}</p>
+          <p v-if="isSignatureShow" class="text-muted">
             從裝置作品、展場動線到建築細節，展覽邀請觀眾留意日常中容易錯過的設計。不同媒材並置，讓同一個題目在各自的觀看經驗中有了不同答案。
           </p>
-          <dl>
+          <dl class="flex flex-wrap gap-x-6 gap-y-3 [&_dt]:font-bold">
             <div>
               <dt>展覽期間</dt>
               <dd>{{ item.start }} — {{ item.end }}</dd>
@@ -212,231 +226,5 @@ function buy() {
       </div>
     </section>
   </div>
-  <Recommendations :exclude="item.id" />
+  <LazyRecommendations :exclude="item.id" :hydrate-on-visible="{ rootMargin: '250px' }" />
 </template>
-
-<style scoped>
-.detail-page {
-  padding-top: clamp(25px, 6.4vw, 80px);
-}
-.detail-summary {
-  display: grid;
-  gap: 24px 30px;
-}
-.exhibit-media {
-  position: relative;
-}
-.exhibit-image {
-  width: 100%;
-  aspect-ratio: 540 / 256;
-  object-fit: cover;
-}
-.overlay-date {
-  display: none;
-}
-.detail-title {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0 5px;
-  padding-top: 3px;
-}
-.detail-title h1 {
-  font-size: 1.25rem;
-}
-.detail-title .icon-button {
-  min-width: 35px;
-}
-.mobile-date {
-  margin-left: auto;
-  font-size: 0.875rem;
-  font-weight: 700;
-}
-.description {
-  color: #353535;
-}
-.share-status {
-  margin-top: 6px;
-  color: var(--wine);
-  font-size: 0.875rem;
-}
-.ticket-picker {
-  display: grid;
-  align-content: start;
-  gap: 18px;
-}
-.ticket-controls {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  align-items: center;
-  text-align: center;
-}
-.ticket-amount {
-  display: grid;
-  justify-items: center;
-  gap: 0;
-}
-.ticket-amount :deep(output) {
-  font-size: 1.875rem;
-}
-.ticket-price {
-  font-size: clamp(1.5rem, 4vw, 2.5rem);
-  font-weight: 700;
-}
-.types {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  width: 100%;
-  max-width: 192px;
-  margin: 11px auto 0;
-  border: 0;
-  padding: 0;
-}
-.types legend {
-  margin-inline: auto;
-  color: var(--muted);
-  font-size: 0.875rem;
-}
-.types label {
-  min-width: 0;
-  cursor: pointer;
-}
-.types span {
-  display: grid;
-  min-height: 42px;
-  place-items: center;
-  border-bottom: 2px solid transparent;
-  white-space: nowrap;
-}
-.types input:checked + span {
-  color: var(--wine);
-  border-color: var(--pink);
-}
-.types input:focus-visible + span {
-  outline: 2px solid var(--pink);
-  outline-offset: -1px;
-}
-.detail-actions {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
-}
-.detail-story {
-  display: grid;
-  gap: 28px;
-  margin-top: clamp(32px, 5vw, 48px);
-}
-.story-banner {
-  width: 100%;
-  aspect-ratio: 1110 / 400;
-  object-fit: cover;
-}
-.story-grid {
-  display: grid;
-  gap: 20px;
-}
-.story-image {
-  width: 100%;
-  aspect-ratio: 350 / 420;
-  object-fit: cover;
-}
-.story-text {
-  display: grid;
-  gap: 12px;
-  align-content: start;
-}
-.story-text h2 {
-  font-size: 1.25rem;
-}
-.story-text p:not(.story-subtitle) {
-  color: var(--muted);
-}
-.story-text dl {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px 24px;
-  margin: 0;
-}
-.story-text dt {
-  font-weight: 700;
-}
-.story-text dd {
-  margin: 0;
-}
-.voucher {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 8px;
-  margin-bottom: 18px;
-  border: 1px solid var(--wine);
-  padding: 12px 16px;
-  color: var(--wine);
-}
-@media (max-width: 450px) {
-  .ticket-controls {
-    grid-template-columns: 1fr;
-    gap: 18px;
-  }
-  .exhibit-image {
-    aspect-ratio: 1.55;
-  }
-  .story-image {
-    order: 1;
-    aspect-ratio: 1;
-  }
-  .story-banner {
-    aspect-ratio: 1.25;
-  }
-}
-@media (min-width: 900px) {
-  .detail-summary {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-  .mobile-date {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip-path: inset(50%);
-    white-space: nowrap;
-  }
-  .overlay-date {
-    position: absolute;
-    top: 50%;
-    right: 24px;
-    display: flex;
-    width: 3ch;
-    flex-direction: column;
-    transform: translateY(-50%);
-    color: white;
-    font-size: 1.125rem;
-    font-weight: 700;
-    text-shadow:
-      0 0 8px black,
-      0 1px 2px black;
-  }
-  .ticket-picker {
-    gap: 42px;
-  }
-  .ticket-controls {
-    min-height: 256px;
-  }
-  .ticket-pricing {
-    display: grid;
-    min-height: 100%;
-    align-content: center;
-    border-left: 1px solid #969696;
-  }
-  .detail-actions {
-    gap: 30px;
-  }
-  .story-image {
-    aspect-ratio: 350 / 560;
-  }
-  .story-grid:has(.story-image) {
-    grid-template-columns: minmax(0, 350px) minmax(0, 1fr);
-    gap: 30px;
-  }
-}
-</style>

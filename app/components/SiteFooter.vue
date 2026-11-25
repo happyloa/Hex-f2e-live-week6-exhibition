@@ -18,17 +18,29 @@ function subscribe() {
   <footer>
     <section
       v-if="newsletter"
-      class="newsletter"
+      class="
+        relative isolate grid min-h-[400px] items-end bg-newsletter-bg text-white after:absolute
+        after:inset-0 after:-z-10 after:[background:linear-gradient(90deg,#0008,transparent_78%)]
+        after:content-['']
+      "
       aria-labelledby="newsletter-title"
     >
-      <ExhibitImage name="newsletter" sizes="100vw" class="newsletter-image" />
-      <div class="shell newsletter-inner">
+      <ExhibitImage
+        name="newsletter"
+        sizes="100vw"
+        class="absolute inset-0 -z-20 size-full object-cover object-[51%_center] md:object-[center_46%]"
+      />
+      <div class="shell pt-[26px] pb-9">
         <h2 id="newsletter-title" class="section-heading">
           想收到最新消息嗎？<br />快訂閱我們！
         </h2>
-        <form class="newsletter-form" @submit.prevent="subscribe">
+        <form
+          class="mt-3 flex w-full max-w-[350px]"
+          @submit.prevent="subscribe"
+        >
           <label class="sr-only" for="newsletter-email">電子信箱</label>
           <input
+            class="w-0 min-w-0 flex-1 rounded-l-sm border border-white bg-white px-3 py-2.5 text-ink"
             id="newsletter-email"
             v-model="email"
             type="email"
@@ -38,17 +50,34 @@ function subscribe() {
             :disabled="!interactive"
             @input="signedUp = false"
           />
-          <button class="button" type="submit" :disabled="!interactive">
+          <button
+            class="button w-[38%] rounded-l-none"
+            type="submit"
+            :disabled="!interactive"
+          >
             訂閱
           </button>
         </form>
-        <p v-if="signedUp" class="subscribed" role="status">已完成示範訂閱。</p>
+        <p v-if="signedUp" class="mt-2" role="status">已完成示範訂閱。</p>
       </div>
     </section>
-    <div class="shell footer-inner">
-      <NuxtLink to="/" class="footer-brand">EXHIBINECTION</NuxtLink>
-      <p>© 2020. All Rights Reserved.</p>
-      <nav class="footer-account" aria-label="帳戶與收藏">
+    <div
+      class="
+        shell flex flex-col flex-wrap items-start gap-[5px] py-5 md:flex-row md:items-center md:gap-x-4
+        md:gap-y-1
+      "
+    >
+      <NuxtLink to="/" class="text-[1.375rem] no-underline"
+        >EXHIBINECTION</NuxtLink
+      >
+      <p class="text-sm">© 2020. All Rights Reserved.</p>
+      <nav
+        class="
+          mt-[3px] -ml-1.5 flex gap-3.5 md:mt-0 md:ml-auto [&_a]:text-muted [&_a]:no-underline
+          [&_a:hover]:text-brand [&_a:hover]:underline
+        "
+        aria-label="帳戶與收藏"
+      >
         <NuxtLink to="/favorites">我的收藏</NuxtLink>
         <NuxtLink v-if="name" to="/account">帳戶</NuxtLink>
         <template v-else>
@@ -59,98 +88,3 @@ function subscribe() {
     </div>
   </footer>
 </template>
-
-<style scoped>
-.newsletter {
-  position: relative;
-  display: grid;
-  min-height: 400px;
-  align-items: end;
-  background: #1c1c1c;
-  color: white;
-  isolation: isolate;
-}
-.newsletter::after {
-  position: absolute;
-  z-index: -1;
-  inset: 0;
-  background: linear-gradient(90deg, #0008, transparent 78%);
-  content: "";
-}
-.newsletter-image {
-  position: absolute;
-  z-index: -2;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center 46%;
-}
-.newsletter-inner {
-  padding-block: 26px 36px;
-}
-.newsletter-form {
-  display: flex;
-  width: min(350px, 100%);
-  margin-top: 12px;
-}
-.newsletter-form input {
-  width: 0;
-  min-width: 0;
-  flex: 1;
-  border: 1px solid white;
-  border-radius: 4px 0 0 4px;
-  padding: 10px 12px;
-  background: white;
-  color: var(--ink);
-}
-.newsletter-form button {
-  width: 38%;
-  border-radius: 0 4px 4px 0;
-}
-.subscribed {
-  margin-top: 8px;
-}
-.footer-inner {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 4px 16px;
-  padding-block: 20px;
-}
-.footer-brand {
-  font-size: 1.375rem;
-  text-decoration: none;
-}
-.footer-inner p {
-  font-size: 0.875rem;
-}
-.footer-account {
-  display: flex;
-  gap: 14px;
-  margin-left: auto;
-}
-.footer-account a {
-  border: 0;
-  background: transparent;
-  color: var(--muted);
-  text-decoration: none;
-}
-.footer-account a:hover {
-  color: var(--wine);
-  text-decoration: underline;
-}
-@media (max-width: 767px) {
-  .newsletter-image {
-    object-position: 51% center;
-  }
-  .footer-inner {
-    align-items: flex-start;
-    gap: 5px;
-    flex-direction: column;
-  }
-  .footer-account {
-    margin: 3px 0 0 -6px;
-  }
-}
-</style>

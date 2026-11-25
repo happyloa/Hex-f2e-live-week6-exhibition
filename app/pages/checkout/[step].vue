@@ -124,13 +124,13 @@ async function pay() {
 </script>
 
 <template>
-  <div v-if="step.id === 'complete'" class="shell complete-page">
-    <section class="complete" aria-labelledby="complete-title">
+  <div v-if="step.id === 'complete'" class="shell grid min-h-[calc(100dvh-132px)] items-center py-[42px]">
+    <section class="mx-auto grid w-full max-w-[540px] gap-4" aria-labelledby="complete-title">
       <template v-if="order && orderExhibition">
-        <MaterialIcon class="complete-icon" name="complete" :size="44" />
-        <h1 id="complete-title">完成訂購</h1>
-        <p class="complete-label">您的展覽通過代碼為：</p>
-        <p class="complete-code">
+        <MaterialIcon class="justify-self-center text-brand" name="complete" :size="44" />
+        <h1 id="complete-title" class="justify-self-center text-xl font-bold text-brand">完成訂購</h1>
+        <p>您的展覽通過代碼為：</p>
+        <p class="complete-code justify-self-center py-4 text-2xl text-brand [&_code]:font-sans">
           <code>{{ order.code }}</code>
         </p>
         <p>
@@ -138,8 +138,8 @@ async function pay() {
             orderExhibition.title
           }}」的示範購票。選擇「看展去」可開啟線上展間。
         </p>
-        <p class="muted">訂單總額 {{ newTaiwanDollars(order.total) }}</p>
-        <div class="final-actions">
+        <p class="text-muted">訂單總額 {{ newTaiwanDollars(order.total) }}</p>
+        <div class="mt-9 grid grid-cols-2 gap-[18px]">
           <NuxtLink class="button button--outline" to="/exhibitions"
             >繼續瀏覽</NuxtLink
           >
@@ -149,7 +149,7 @@ async function pay() {
         </div>
         <ul
           v-if="orderExhibitions.length > 1"
-          class="other-visits"
+          class="grid list-disc gap-1.5 pl-5"
           aria-label="本次訂購的其他展覽"
         >
           <li v-for="exhibit in orderExhibitions.slice(1)" :key="exhibit.id">
@@ -160,7 +160,7 @@ async function pay() {
         </ul>
       </template>
       <template v-else>
-        <h1 id="complete-title">
+        <h1 id="complete-title" class="justify-self-center text-xl font-bold text-brand">
           {{ ready ? "目前沒有完成的訂單" : "正在讀取訂單…" }}
         </h1>
         <NuxtLink v-if="ready" class="button button--outline" to="/exhibitions"
@@ -169,13 +169,20 @@ async function pay() {
       </template>
     </section>
   </div>
-  <div v-else class="shell checkout-page">
+  <div v-else class="shell min-h-[calc(100dvh-80px)] pt-[23px]">
     <h1 class="sr-only">{{ step.label }}</h1>
-    <ol class="progress" aria-label="訂購步驟">
+    <ol class="mb-[25px] grid grid-cols-4 wide:w-[calc((100%-30px)*2/3)]" aria-label="訂購步驟">
       <li
         v-for="(entry, i) in steps"
         :key="entry.id"
-        :class="{ 'is-reached': i <= index }"
+        class="
+          relative min-w-0 border-t-2 border-accent-track px-1 pt-2 text-center
+          text-[clamp(.75rem,2.5vw,1rem)] text-muted before:absolute before:-top-[5px]
+          before:left-[calc(50%-4px)] before:size-2 before:rounded-full before:border before:border-accent
+          before:bg-white before:content-[''] data-[reached=true]:border-t-accent
+          data-[reached=true]:before:bg-accent aria-[current=step]:font-bold aria-[current=step]:text-ink
+        "
+        :data-reached="i <= index"
         :aria-current="i === index ? 'step' : undefined"
       >
         {{ entry.label }}
@@ -183,20 +190,28 @@ async function pay() {
     </ol>
     <div
       v-if="canProceed"
-      class="checkout-grid"
-      :class="{ 'checkout-grid--review': step.id === 'cart' }"
+      class="
+        grid min-h-[calc(100dvh-132px)] grid-rows-[auto_auto_1fr_auto] gap-5 pb-[18px]
+        [grid-template-areas:'form'_'totals'_'lines'_'actions']
+        max-wide:data-[review=true]:grid-rows-[1fr_auto_auto]
+        max-wide:data-[review=true]:[grid-template-areas:'lines'_'totals'_'actions']
+        wide:min-h-[calc(100dvh-164px)] wide:grid-cols-[minmax(0,2.08fr)_minmax(0,1fr)]
+        wide:grid-rows-[1fr_auto_auto] wide:gap-x-[30px] wide:gap-y-3
+        wide:[grid-template-areas:'lines_form'_'lines_totals'_'actions_actions']
+      "
+      :data-review="step.id === 'cart'"
     >
-      <div class="order-lines">
+      <div class="min-w-0 [grid-area:lines]">
         <CartItems :editable="step.id === 'cart'" />
       </div>
       <form
         v-if="step.id === 'details'"
         id="checkout-form"
-        class="checkout-form"
+        class="grid gap-3.5 self-start [grid-area:form]"
         @submit.prevent="saveDetails"
         @input="clearError"
       >
-        <h2>訂購人資訊</h2>
+        <h2 class="text-xl font-bold">訂購人資訊</h2>
         <label class="field"
           >Email
           <input
@@ -241,7 +256,7 @@ async function pay() {
             :aria-invalid="invalid === 'coupon' || undefined"
           />
         </label>
-        <p class="coupon-hint">
+        <p class="-mt-2.5 text-right text-sm text-brand">
           {{ couponIsValid ? "已套用優惠，折抵 NT$50" : "示範優惠碼 TG87526" }}
         </p>
         <p v-if="error" class="form-error" role="alert">{{ error }}</p>
@@ -249,12 +264,12 @@ async function pay() {
       <form
         v-if="step.id === 'payment'"
         id="checkout-form"
-        class="checkout-form"
+        class="grid gap-3.5 self-start [grid-area:form]"
         autocomplete="off"
         @submit.prevent="pay"
         @input="clearError"
       >
-        <h2>付款資訊</h2>
+        <h2 class="text-xl font-bold">付款資訊</h2>
         <label class="field"
           >信用卡帳號
           <input
@@ -288,11 +303,11 @@ async function pay() {
             :aria-invalid="invalid === 'code' || undefined"
           />
         </label>
-        <div class="payment-demo">
+        <div class="flex flex-wrap items-center justify-between gap-1.5 text-sm text-muted">
           <p>示範付款，請使用測試卡。</p>
           <button
             type="button"
-            class="plain-link text-button"
+            class="plain-link min-h-[38px] border-0 bg-transparent p-0"
             @click="fillDemoCard"
           >
             填入示範卡
@@ -300,7 +315,10 @@ async function pay() {
         </div>
         <p v-if="error" class="form-error" role="alert">{{ error }}</p>
       </form>
-      <dl class="checkout-totals" aria-label="金額摘要">
+      <dl class="
+        grid gap-1.5 self-end [grid-area:totals] [&>div]:flex [&>div]:justify-between [&>div]:gap-2
+        [&_dd]:text-right data-[review=true]:text-lg data-[review=true]:font-bold
+      " :data-review="step.id === 'cart'" aria-label="金額摘要">
         <div>
           <dt>小計</dt>
           <dd>{{ newTaiwanDollars(subtotal) }}</dd>
@@ -310,7 +328,7 @@ async function pay() {
             <dt>折扣</dt>
             <dd>−{{ newTaiwanDollars(displayDiscount) }}</dd>
           </div>
-          <div class="grand-total">
+          <div class="text-lg font-bold">
             <dt>總金額</dt>
             <dd>
               {{
@@ -322,31 +340,34 @@ async function pay() {
           </div>
         </template>
       </dl>
-      <div class="checkout-actions">
+      <div class="
+        sticky bottom-0 z-1 grid grid-cols-2 gap-4 bg-white pt-1.5 pb-2.5 [grid-area:actions] wide:static
+        wide:grid-cols-[minmax(0,2.08fr)_minmax(0,1fr)] wide:gap-[30px] wide:p-0
+      ">
         <NuxtLink
           v-if="step.id === 'details'"
-          class="button button--outline back"
+          class="button button--outline wide:min-w-[125px] wide:justify-self-start"
           to="/checkout/cart"
           >返回</NuxtLink
         >
         <NuxtLink
           v-if="step.id === 'payment'"
-          class="button button--outline back"
+          class="button button--outline wide:min-w-[125px] wide:justify-self-start"
           to="/checkout/details"
           >返回</NuxtLink
         >
         <NuxtLink
           v-if="step.id === 'cart'"
-          class="button next"
+          class="button col-start-2"
           to="/checkout/details"
           >下一步</NuxtLink
         >
-        <button v-else type="submit" class="button next" form="checkout-form">
+        <button v-else type="submit" class="button col-start-2" form="checkout-form">
           {{ step.id === "payment" ? "完成訂購" : "下一步" }}
         </button>
       </div>
     </div>
-    <div v-else class="checkout-empty">
+    <div v-else class="grid justify-items-start gap-3.5 pt-6 pb-16">
       <p v-if="!ready">正在讀取購物車…</p>
       <template v-else-if="!count">
         <p>購物車目前沒有票券。</p>
@@ -363,199 +384,3 @@ async function pay() {
     </div>
   </div>
 </template>
-
-<style scoped>
-.checkout-page {
-  min-height: calc(100dvh - 80px);
-  padding-top: 23px;
-}
-.progress {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 0;
-  margin: 0 0 25px;
-  padding: 0;
-  list-style: none;
-}
-.progress li {
-  position: relative;
-  min-width: 0;
-  border-top: 2px solid #f4a9c9;
-  padding: 8px 4px 0;
-  color: var(--muted);
-  font-size: clamp(0.75rem, 2.5vw, 1rem);
-  text-align: center;
-}
-.progress li::before {
-  position: absolute;
-  top: -5px;
-  left: calc(50% - 4px);
-  width: 8px;
-  height: 8px;
-  border: 1px solid var(--pink);
-  border-radius: 50%;
-  background: white;
-  content: "";
-}
-.progress .is-reached {
-  border-top-color: var(--pink);
-}
-.progress .is-reached::before {
-  background: var(--pink);
-}
-.progress li[aria-current="step"] {
-  color: var(--ink);
-  font-weight: 700;
-}
-.checkout-grid {
-  display: grid;
-  grid-template-areas: "form" "totals" "lines" "actions";
-  grid-template-rows: auto auto 1fr auto;
-  gap: 20px;
-  min-height: calc(100dvh - 132px);
-  padding-bottom: 18px;
-}
-.checkout-grid--review {
-  grid-template-areas: "lines" "totals" "actions";
-  grid-template-rows: 1fr auto auto;
-}
-.order-lines {
-  grid-area: lines;
-  min-width: 0;
-}
-.checkout-form {
-  grid-area: form;
-  align-self: start;
-  display: grid;
-  gap: 14px;
-}
-.checkout-form h2 {
-  font-size: 1.25rem;
-}
-.coupon-hint {
-  margin-top: -10px;
-  color: var(--wine);
-  font-size: 0.875rem;
-  text-align: right;
-}
-.payment-demo {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: center;
-  gap: 6px;
-  color: var(--muted);
-  font-size: 0.875rem;
-}
-.text-button {
-  min-height: 38px;
-  border: 0;
-  padding: 0;
-  background: transparent;
-  text-decoration: underline;
-}
-.checkout-totals {
-  grid-area: totals;
-  display: grid;
-  align-self: end;
-  gap: 6px;
-  margin: 0;
-}
-.checkout-totals div {
-  display: flex;
-  justify-content: space-between;
-  gap: 8px;
-}
-.checkout-totals dd {
-  margin: 0;
-  text-align: right;
-}
-.checkout-grid--review .checkout-totals,
-.grand-total {
-  font-weight: 700;
-  font-size: 1.125rem;
-}
-.checkout-actions {
-  grid-area: actions;
-  position: sticky;
-  bottom: 0;
-  z-index: 1;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-  padding-block: 6px 10px;
-  background: white;
-}
-.next {
-  grid-column: 2;
-}
-.checkout-empty {
-  display: grid;
-  gap: 14px;
-  justify-items: start;
-  padding-block: 24px 64px;
-}
-.complete-page {
-  display: grid;
-  min-height: calc(100dvh - 132px);
-  align-items: center;
-  padding-block: 42px;
-}
-.complete {
-  display: grid;
-  width: min(540px, 100%);
-  margin-inline: auto;
-  gap: 16px;
-}
-.complete h1 {
-  justify-self: center;
-  color: var(--wine);
-  font-size: 1.25rem;
-}
-.complete-icon,
-.complete-code {
-  justify-self: center;
-  color: var(--wine);
-}
-.complete-code {
-  padding-block: 16px;
-  font-size: 1.5rem;
-}
-.complete-code code {
-  font-family: inherit;
-}
-.other-visits {
-  display: grid;
-  gap: 6px;
-  margin: 0;
-  padding-left: 1.25rem;
-}
-.final-actions {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 18px;
-  margin-top: 36px;
-}
-@media (min-width: 900px) {
-  .progress {
-    width: calc((100% - 30px) * 2 / 3);
-  }
-  .checkout-grid {
-    grid-template-columns: minmax(0, 2.08fr) minmax(0, 1fr);
-    grid-template-areas: "lines form" "lines totals" "actions actions";
-    grid-template-rows: 1fr auto auto;
-    gap: 12px 30px;
-    min-height: calc(100dvh - 164px);
-  }
-  .checkout-actions {
-    position: static;
-    grid-template-columns: minmax(0, 2.08fr) minmax(0, 1fr);
-    gap: 30px;
-    padding: 0;
-  }
-  .checkout-actions .back {
-    justify-self: start;
-    min-width: 125px;
-  }
-}
-</style>

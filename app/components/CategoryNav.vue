@@ -7,10 +7,19 @@ const active = computed(() =>
 </script>
 
 <template>
-  <nav class="categories" aria-label="展覽分類">
-    <ul class="shell">
+  <nav class="border-b border-divider" aria-label="展覽分類">
+    <ul class="
+      scrollbar-branded mx-auto flex w-full max-w-site list-none items-stretch overflow-x-auto px-2
+      [justify-content:safe_center]
+    ">
       <li v-for="category in categories" :key="category.id">
         <NuxtLink
+          class="
+            grid min-h-[49px] place-items-center border-y-2 border-transparent px-[clamp(12px,2vw,26px)]
+            text-[.9375rem] whitespace-nowrap text-muted no-underline hover:border-b-accent hover:text-brand
+            focus-visible:border-b-accent focus-visible:text-brand focus-visible:-outline-offset-3
+            [&[aria-current=page]]:border-b-accent [&[aria-current=page]]:text-brand
+          "
           :to="{ path: '/exhibitions', query: { category: category.id } }"
           :aria-current="active === category.id ? 'page' : undefined"
         >
@@ -20,41 +29,3 @@ const active = computed(() =>
     </ul>
   </nav>
 </template>
-
-<style scoped>
-.categories {
-  border-bottom: 1px solid #969696;
-}
-ul {
-  display: flex;
-  width: min(100%, 1110px);
-  align-items: stretch;
-  justify-content: safe center;
-  overflow-x: auto;
-  margin-block: 0;
-  padding: 0 8px;
-  list-style: none;
-  scrollbar-width: thin;
-}
-a {
-  display: grid;
-  min-height: 49px;
-  padding-inline: clamp(12px, 2vw, 26px);
-  place-items: center;
-  border-top: 2px solid transparent;
-  border-bottom: 2px solid transparent;
-  color: var(--muted);
-  font-size: 0.9375rem;
-  text-decoration: none;
-  white-space: nowrap;
-}
-a:hover,
-a:focus-visible,
-a[aria-current="page"] {
-  border-bottom-color: var(--pink);
-  color: var(--wine);
-}
-a:focus-visible {
-  outline-offset: -3px;
-}
-</style>

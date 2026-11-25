@@ -1,3 +1,5 @@
+import type { ExhibitImageName } from "./exhibitImages";
+
 export const categories = [
   { id: "music", label: "音樂" },
   { id: "theatre", label: "戲劇" },
@@ -10,22 +12,6 @@ export const categories = [
   { id: "limited", label: "期間限定" },
 ] as const;
 
-export const imageWidths = {
-  "taiwan-design": [480, 960, 1440],
-  "online-design": [480, 960],
-  "kaohsiung-design": [480, 960],
-  geometry: [768, 1440],
-  architecture: [480, 768],
-  hero: [768, 1600],
-  "city-model": [480, 768],
-  spotlight: [480, 768],
-  museum: [480, 768],
-  newsletter: [768, 1600],
-  host: [160],
-  "live-gallery": [768, 1440],
-} as const;
-
-export type ExhibitImageName = keyof typeof imageWidths;
 type Category = (typeof categories)[number]["id"];
 
 interface Exhibition {

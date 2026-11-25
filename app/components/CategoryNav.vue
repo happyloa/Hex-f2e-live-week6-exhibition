@@ -49,6 +49,7 @@ a {
   white-space: nowrap;
 }
 a:hover,
+a:focus-visible,
 a[aria-current="page"] {
   border-bottom-color: var(--pink);
   color: var(--wine);

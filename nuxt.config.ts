@@ -3,6 +3,9 @@ import { exhibitions } from "./app/data/exhibitions";
 export default defineNuxtConfig({
   compatibilityDate: "2026-11-25",
   devtools: { enabled: false },
+  experimental: {
+    defaults: { nuxtLink: { prefetch: false } },
+  },
   css: ["~/assets/css/main.css"],
   app: {
     head: {
@@ -30,7 +33,15 @@ export default defineNuxtConfig({
         "/checkout/details",
         "/checkout/payment",
         "/checkout/complete",
-        ...exhibitions.map(({ id }) => `/exhibitions/${id}`),
+        "/account",
+        "/account/sign-in",
+        "/account/sign-up",
+        "/favorites",
+        "/recap",
+        ...exhibitions.flatMap(({ id }) => [
+          `/exhibitions/${id}`,
+          `/visit/${id}`,
+        ]),
       ],
     },
   },

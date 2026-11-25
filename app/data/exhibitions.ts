@@ -135,6 +135,58 @@ export const exhibitions: Exhibition[] = [
     end: "31 OCT",
     limited: true,
   },
+  {
+    id: "sound-on-stage",
+    title: "聲音在舞台上",
+    category: "music",
+    image: "spotlight",
+    alt: "聚光燈下的黑色舞台與雕塑",
+    description: "沿著燈光、舞台與聆聽位置，想像聲音如何形塑一場表演的空間。",
+    venue: "線上展間",
+    price: 350,
+    start: "01 JUL",
+    end: "31 AUG",
+  },
+  {
+    id: "market-tables",
+    title: "市場餐桌設計展",
+    category: "food",
+    image: "city-model",
+    alt: "由不同尺寸的方塊堆疊而成的空間模型",
+    description:
+      "從街口攤位到家中餐桌，透過模型觀察市場如何安排採買、停留與用餐的路線。",
+    venue: "線上展間",
+    price: 350,
+    start: "01 AUG",
+    end: "31 OCT",
+  },
+  {
+    id: "walk-the-city",
+    title: "走讀城市的骨架",
+    category: "travel",
+    image: "architecture",
+    alt: "展場中交錯排列的樓梯與鋼構",
+    description:
+      "用建築細節規劃一段城市漫遊，從樓梯、通道與天窗認識不同的空間層次。",
+    venue: "線上展間",
+    price: 350,
+    start: "01 SEP",
+    end: "31 OCT",
+  },
+  {
+    id: "frames-in-motion",
+    title: "移動中的畫格",
+    category: "film",
+    image: "live-gallery",
+    alt: "展間裡經過畫框的觀眾身影",
+    description:
+      "把走動的身影和展牆視為連續畫格，從取景與節奏理解影像如何呈現時間。",
+    venue: "線上展間",
+    price: 350,
+    start: "01 SEP",
+    end: "31 OCT",
+    limited: true,
+  },
 ];
 
 export const ticketTypes = [

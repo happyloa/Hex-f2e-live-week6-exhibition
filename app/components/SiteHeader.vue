@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { Ticket } from "@lucide/vue";
-const { count, isCartOpen } = useTicketCart();
-const { mode, name } = useDemoAccount();
+const { count, isCartOpen, ready } = useTicketCart();
+const { name } = useDemoAccount();
 </script>
 
 <template>
@@ -12,29 +11,25 @@ const { mode, name } = useDemoAccount();
       >
       <div class="header-actions">
         <template v-if="!name">
-          <button class="account-link" type="button" @click="mode = 'signin'">
+          <NuxtLink class="account-link" to="/account/sign-in">
             Sign in
-          </button>
-          <button class="account-link" type="button" @click="mode = 'signup'">
+          </NuxtLink>
+          <NuxtLink class="account-link" to="/account/sign-up">
             Sign up
-          </button>
+          </NuxtLink>
         </template>
-        <button
-          v-else
-          class="account-link"
-          type="button"
-          @click="mode = 'signin'"
-        >
+        <NuxtLink v-else class="account-link" to="/account">
           {{ name }}
-        </button>
+        </NuxtLink>
         <button
           type="button"
           class="icon-button cart-trigger"
           :aria-label="`購物車，${count} 張票券`"
           aria-haspopup="dialog"
+          :disabled="!ready"
           @click="isCartOpen = true"
         >
-          <Ticket :size="24" aria-hidden="true" />
+          <MaterialIcon name="ticket" />
           <span v-if="count" aria-hidden="true" class="count">{{ count }}</span>
         </button>
       </div>
@@ -89,6 +84,7 @@ const { mode, name } = useDemoAccount();
   padding: 8px 2px;
   overflow: hidden;
   text-overflow: ellipsis;
+  text-decoration: none;
   white-space: nowrap;
   background: transparent;
   color: var(--muted);

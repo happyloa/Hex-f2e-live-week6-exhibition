@@ -1,7 +1,12 @@
 <script setup lang="ts">
-const { mode, name } = useDemoAccount();
+withDefaults(defineProps<{ newsletter?: boolean }>(), { newsletter: true });
+const { name } = useDemoAccount();
 const signedUp = ref(false);
 const email = ref("");
+const interactive = ref(false);
+onMounted(() => {
+  interactive.value = true;
+});
 function subscribe() {
   if (!email.value.trim()) return;
   signedUp.value = true;
@@ -11,7 +16,11 @@ function subscribe() {
 
 <template>
   <footer>
-    <section class="newsletter" aria-labelledby="newsletter-title">
+    <section
+      v-if="newsletter"
+      class="newsletter"
+      aria-labelledby="newsletter-title"
+    >
       <ExhibitImage name="newsletter" sizes="100vw" class="newsletter-image" />
       <div class="shell newsletter-inner">
         <h2 id="newsletter-title" class="section-heading">
@@ -26,9 +35,12 @@ function subscribe() {
             placeholder="輸入您的電子信箱"
             required
             autocomplete="email"
+            :disabled="!interactive"
             @input="signedUp = false"
           />
-          <button class="button" type="submit">訂閱</button>
+          <button class="button" type="submit" :disabled="!interactive">
+            訂閱
+          </button>
         </form>
         <p v-if="signedUp" class="subscribed" role="status">已完成示範訂閱。</p>
       </div>
@@ -36,10 +48,14 @@ function subscribe() {
     <div class="shell footer-inner">
       <NuxtLink to="/" class="footer-brand">EXHIBINECTION</NuxtLink>
       <p>© 2020. All Rights Reserved.</p>
-      <div v-if="!name" class="footer-account">
-        <button type="button" @click="mode = 'signin'">Sign in</button>
-        <button type="button" @click="mode = 'signup'">Sign up</button>
-      </div>
+      <nav class="footer-account" aria-label="帳戶與收藏">
+        <NuxtLink to="/favorites">我的收藏</NuxtLink>
+        <NuxtLink v-if="name" to="/account">帳戶</NuxtLink>
+        <template v-else>
+          <NuxtLink to="/account/sign-in">Sign in</NuxtLink>
+          <NuxtLink to="/account/sign-up">Sign up</NuxtLink>
+        </template>
+      </nav>
     </div>
   </footer>
 </template>
@@ -114,10 +130,15 @@ function subscribe() {
   gap: 14px;
   margin-left: auto;
 }
-.footer-account button {
+.footer-account a {
   border: 0;
   background: transparent;
   color: var(--muted);
+  text-decoration: none;
+}
+.footer-account a:hover {
+  color: var(--wine);
+  text-decoration: underline;
 }
 @media (max-width: 767px) {
   .newsletter-image {

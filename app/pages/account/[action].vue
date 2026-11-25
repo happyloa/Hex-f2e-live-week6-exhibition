@@ -1,0 +1,57 @@
+<script setup lang="ts">
+definePageMeta({ key: (route) => route.path });
+const route = useRoute();
+const action = route.params.action;
+if (action !== "sign-in" && action !== "sign-up") {
+  throw createError({ statusCode: 404, statusMessage: "找不到帳戶頁面" });
+}
+const signup = action === "sign-up";
+const title = signup ? "註冊" : "登入";
+const { setName } = useDemoAccount();
+const displayName = ref("");
+const error = ref("");
+useSeoMeta({ title, robots: "noindex, nofollow" });
+
+async function submit() {
+  if (!displayName.value.trim()) {
+    error.value = "請輸入顯示名稱。";
+    return;
+  }
+  setName(displayName.value);
+  await navigateTo("/account");
+}
+</script>
+
+<template>
+  <div class="shell support-page account-form">
+    <h1 class="section-heading">{{ title }}</h1>
+    <form class="support-panel" @submit.prevent="submit">
+      <p class="muted">輸入顯示名稱即可使用這個分頁的示範帳戶。</p>
+      <label class="field">
+        顯示名稱
+        <input
+          v-model="displayName"
+          required
+          maxlength="32"
+          autocomplete="nickname"
+          :aria-invalid="!!error || undefined"
+          @input="error = ''"
+        />
+      </label>
+      <p v-if="error" class="form-error" role="alert">{{ error }}</p>
+      <button class="button button--block" type="submit">{{ title }}</button>
+      <NuxtLink
+        class="plain-link"
+        :to="signup ? '/account/sign-in' : '/account/sign-up'"
+      >
+        {{ signup ? "已有示範帳戶，前往登入" : "建立示範帳戶" }}
+      </NuxtLink>
+    </form>
+  </div>
+</template>
+
+<style scoped>
+.account-form {
+  max-width: 540px;
+}
+</style>

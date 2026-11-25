@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { X } from "@lucide/vue";
 import {
   exhibitionPath,
   findExhibition,
@@ -58,7 +57,7 @@ const items = computed(() =>
         :aria-label="`移除 ${item.exhibition.title} ${ticketLabel(item.type)}`"
         @click="updateQuantity(item.exhibitionId, item.type, 0)"
       >
-        <X :size="18" aria-hidden="true" />
+        <MaterialIcon name="close" :size="18" />
       </button>
     </li>
   </ul>

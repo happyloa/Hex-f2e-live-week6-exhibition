@@ -1,7 +1,10 @@
 <script setup lang="ts">
-import { Minus, Plus } from "@lucide/vue";
 import { maxQuantity } from "~/composables/useTicketCart";
-const props = defineProps<{ quantity: number; label: string }>();
+const props = defineProps<{
+  quantity: number;
+  label: string;
+  disabled?: boolean;
+}>();
 const emit = defineEmits<{ change: [quantity: number] }>();
 </script>
 
@@ -11,20 +14,20 @@ const emit = defineEmits<{ change: [quantity: number] }>();
       class="icon-button"
       type="button"
       aria-label="減少張數"
-      :disabled="quantity <= 1"
+      :disabled="disabled || quantity <= 1"
       @click="emit('change', props.quantity - 1)"
     >
-      <Minus :size="18" aria-hidden="true" />
+      <MaterialIcon name="minus" :size="18" />
     </button>
     <output aria-label="張數">{{ String(quantity).padStart(2, "0") }}</output>
     <button
       class="icon-button"
       type="button"
       aria-label="增加張數"
-      :disabled="quantity >= maxQuantity"
+      :disabled="disabled || quantity >= maxQuantity"
       @click="emit('change', props.quantity + 1)"
     >
-      <Plus :size="18" aria-hidden="true" />
+      <MaterialIcon name="plus" :size="18" />
     </button>
   </div>
 </template>

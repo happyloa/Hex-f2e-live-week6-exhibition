@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { Link2 } from "@lucide/vue";
 import {
+  exhibitionPath,
   findExhibition,
   newTaiwanDollars,
   ticketPrice,
@@ -12,13 +12,21 @@ definePageMeta({ key: (route) => route.path });
 const route = useRoute();
 const item = findExhibition(route.params.id);
 if (!item) throw createError({ statusCode: 404, statusMessage: "找不到展覽" });
-const { add, isCartOpen, order } = useTicketCart();
+const { add, isCartOpen, order, ready: cartReady } = useTicketCart();
+const { ids, toggle, ready: favoritesReady } = useFavorites();
 const quantity = ref(1);
 const type = ref<TicketType>("full");
-const saved = ref(false);
+const saved = computed(() => ids.value.includes(item.id));
 const shareNotice = ref("");
 const shareUrl = ref("");
-const favoriteKey = `exhibinection.favorite.${item.id}`;
+const facebookShare = new URL("https://www.facebook.com/sharer/sharer.php");
+facebookShare.searchParams.set(
+  "u",
+  new URL(
+    exhibitionPath(item.id),
+    "https://hex-f2e-live-week6-exhibition.piafyoyo06.workers.dev",
+  ).href,
+);
 const unitPrice = computed(() => ticketPrice(item, type.value));
 const isSignatureShow = item.id === "taiwan-design";
 const voucher = computed(() => {
@@ -35,24 +43,6 @@ useSeoMeta({
   ogTitle: item.title,
   ogDescription: item.description,
 });
-
-onMounted(() => {
-  try {
-    saved.value = localStorage.getItem(favoriteKey) === "1";
-  } catch {
-    /* In-memory fallback. */
-  }
-});
-
-function toggleFavorite() {
-  saved.value = !saved.value;
-  try {
-    if (saved.value) localStorage.setItem(favoriteKey, "1");
-    else localStorage.removeItem(favoriteKey);
-  } catch {
-    /* In-memory fallback. */
-  }
-}
 
 async function copyLink() {
   const url = new URL(route.path, window.location.origin).href;
@@ -94,13 +84,22 @@ function buy() {
         </div>
         <div class="detail-title">
           <h1 id="detail-title">{{ item.title }}</h1>
+          <a
+            class="icon-button"
+            :href="facebookShare.href"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="分享到 Facebook（開啟新分頁）"
+          >
+            <img src="/images/facebook.svg" width="20" height="20" alt="" />
+          </a>
           <button
             class="icon-button"
             type="button"
             aria-label="複製展覽連結"
             @click="copyLink"
           >
-            <Link2 :size="20" aria-hidden="true" />
+            <MaterialIcon name="link" :size="20" />
           </button>
           <p class="mobile-date">{{ item.start }} — {{ item.end }}</p>
         </div>
@@ -127,6 +126,7 @@ function buy() {
             <QuantityControl
               :quantity="quantity"
               label="選擇票券張數"
+              :disabled="!cartReady"
               @change="quantity = $event"
             />
             <p class="muted">張</p>
@@ -135,7 +135,7 @@ function buy() {
             <p class="ticket-price" aria-live="polite">
               {{ newTaiwanDollars(unitPrice * quantity) }}
             </p>
-            <fieldset class="types">
+            <fieldset class="types" :disabled="!cartReady">
               <legend>票種</legend>
               <label v-for="ticket in ticketTypes" :key="ticket.id">
                 <input
@@ -155,11 +155,19 @@ function buy() {
             class="button button--outline"
             type="button"
             :aria-pressed="saved"
-            @click="toggleFavorite"
+            :disabled="!favoritesReady"
+            @click="toggle(item.id)"
           >
             {{ saved ? "已收藏展覽" : "收藏展覽" }}
           </button>
-          <button class="button" type="button" @click="buy">購買票券</button>
+          <button
+            class="button"
+            type="button"
+            :disabled="!cartReady"
+            @click="buy"
+          >
+            購買票券
+          </button>
         </div>
       </section>
     </div>

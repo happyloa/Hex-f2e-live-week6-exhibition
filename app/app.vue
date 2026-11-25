@@ -1,22 +1,36 @@
 <script setup lang="ts">
 import { cartStorageKey } from "~/composables/useTicketCart";
+import { favoriteStoragePrefix } from "~/composables/useFavorites";
 const { restore, restoreCart } = useTicketCart();
+const { restore: restoreAccount } = useDemoAccount();
+const { restore: restoreFavorites } = useFavorites();
 const route = useRoute();
 const checkout = computed(() =>
   ["/checkout/cart", "/checkout/details", "/checkout/payment"].includes(
     route.path,
   ),
 );
+const utilityPage = computed(
+  () =>
+    route.path === "/favorites" ||
+    route.path === "/account" ||
+    route.path.startsWith("/account/") ||
+    route.path.startsWith("/visit/"),
+);
 
-function syncCart(event: StorageEvent) {
+function syncLocalStorage(event: StorageEvent) {
   if (event.key === null || event.key === cartStorageKey) restoreCart();
+  if (event.key === null || event.key.startsWith(favoriteStoragePrefix))
+    restoreFavorites();
 }
 
 onMounted(() => {
   restore();
-  window.addEventListener("storage", syncCart);
+  restoreAccount();
+  restoreFavorites();
+  window.addEventListener("storage", syncLocalStorage);
 });
-onBeforeUnmount(() => window.removeEventListener("storage", syncCart));
+onBeforeUnmount(() => window.removeEventListener("storage", syncLocalStorage));
 </script>
 
 <template>
@@ -26,8 +40,10 @@ onBeforeUnmount(() => window.removeEventListener("storage", syncCart));
   <main id="main-content" tabindex="-1">
     <NuxtPage />
   </main>
-  <SiteFooter v-if="!checkout && route.path !== '/checkout/complete'" />
+  <SiteFooter
+    v-if="!checkout && route.path !== '/checkout/complete'"
+    :newsletter="!utilityPage"
+  />
   <CartDrawer />
-  <AccountDialog />
   <NuxtRouteAnnouncer />
 </template>

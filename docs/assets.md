@@ -13,4 +13,4 @@
 | 直播回顧         | `people2.png`、`people.png`                                                                                                                 |
 | 電子報背景       | `wladislaw-peljuchno-Y_f1aHpR1tc-unsplash.jpg`                                                                                              |
 
-字型採 Roboto 和 Noto Sans TC，由 Fontsource 套件隨網站提供。介面圖示使用 Lucide。
+字型採 Roboto 和 Noto Sans TC，由 Fontsource 套件隨網站提供。介面圖示使用 Google Material Icons，Facebook 圖示使用課程素材。 [Material Icons 原始碼](https://github.com/google/material-design-icons) · [圖示授權](material-icons-license.txt)

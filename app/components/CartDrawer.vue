@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { X } from "@lucide/vue";
 import { newTaiwanDollars } from "~/data/exhibitions";
 const { count, subtotal, isCartOpen } = useTicketCart();
 const dialog = ref<HTMLDialogElement>();
@@ -38,7 +37,7 @@ watch(
           aria-label="關閉購物車"
           @click="isCartOpen = false"
         >
-          <X :size="24" aria-hidden="true" />
+          <MaterialIcon name="close" />
         </button>
       </header>
       <div class="cart-scroll">
@@ -111,8 +110,10 @@ h2 {
   font-size: clamp(1.5rem, 4vw, 2rem);
 }
 .cart-scroll {
+  --scroll-track: #292126;
+  --scroll-thumb: #d485ad;
   overflow-y: auto;
-  scrollbar-color: var(--pink) #555;
+  scrollbar-color: var(--scroll-thumb) var(--scroll-track);
   scrollbar-width: thin;
 }
 .empty {
@@ -130,6 +131,11 @@ footer p {
   .drawer-inner {
     gap: 16px;
     padding: 24px 32px;
+  }
+}
+@media (forced-colors: active) {
+  .cart-scroll {
+    scrollbar-color: auto;
   }
 }
 </style>

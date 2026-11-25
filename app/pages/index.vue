@@ -4,7 +4,6 @@ const featured = ["taiwan-design", "online-design", "kaohsiung-design"].map(
   (id) => findExhibition(id)!,
 );
 const hero = findExhibition("taipei-contemporary")!;
-const liveOpen = ref(false);
 useSeoMeta({ title: "首頁", ogTitle: "EXHIBINECTION 策展與售票" });
 </script>
 
@@ -92,25 +91,8 @@ useSeoMeta({ title: "首頁", ogTitle: "EXHIBINECTION 策展與售票" });
           alt="對談主持人"
         />
         <p>跟著導覽走進展場，從策展觀點認識藝術創作與觀看的關係。</p>
-        <button
-          class="button"
-          type="button"
-          :aria-expanded="liveOpen"
-          aria-controls="live-notes"
-          @click="liveOpen = !liveOpen"
-        >
-          {{ liveOpen ? "收起回顧" : "觀看回顧" }}
-        </button>
+        <NuxtLink class="button" to="/recap">查看回顧</NuxtLink>
       </div>
-    </div>
-    <div v-if="liveOpen" id="live-notes" class="live-notes">
-      <h3>開幕對談摘要</h3>
-      <p>
-        從動線、材質與光線三個角度走讀展場，體會策展如何改變作品與觀眾的距離。
-      </p>
-      <NuxtLink class="plain-link" :to="exhibitionPath('taiwan-design')"
-        >查看相關展覽</NuxtLink
-      >
     </div>
   </section>
   <Recommendations />
@@ -263,12 +245,6 @@ useSeoMeta({ title: "首頁", ogTitle: "EXHIBINECTION 策展與售票" });
 }
 .live-card .button {
   margin-top: 20px;
-}
-.live-notes {
-  display: grid;
-  gap: 5px;
-  border: 1px solid var(--line);
-  padding: 18px;
 }
 @media (max-width: 767px) {
   .hero-shell {

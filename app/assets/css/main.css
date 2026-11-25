@@ -7,6 +7,8 @@
   --paper: #fff;
   --muted: #666;
   --wine: #630834;
+  --scroll-thumb: #8b3c60;
+  --scroll-track: #f7eaf0;
   --pink: #d90c69;
   --pink-hover: #b90654;
   --gray: #efefef;
@@ -18,6 +20,37 @@
   line-height: 1.5;
   color: var(--ink);
   background: var(--paper);
+}
+html {
+  scrollbar-color: var(--scroll-thumb) var(--scroll-track);
+  scrollbar-width: thin;
+}
+::selection {
+  color: white;
+  background: var(--wine);
+}
+@supports not (scrollbar-color: red blue) {
+  ::-webkit-scrollbar {
+    width: 9px;
+    height: 9px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--scroll-track);
+  }
+  ::-webkit-scrollbar-thumb {
+    border: 2px solid var(--scroll-track);
+    border-radius: 9px;
+    background: var(--scroll-thumb);
+  }
+}
+@media (forced-colors: active) {
+  html {
+    scrollbar-color: auto;
+  }
+  ::selection {
+    color: HighlightText;
+    background: Highlight;
+  }
 }
 *,
 *::before,
@@ -181,6 +214,25 @@ select {
 }
 .skip-link:focus {
   transform: none;
+}
+.support-page {
+  max-width: 800px;
+  min-height: 45vh;
+  padding-block: clamp(36px, 6vw, 72px);
+}
+.support-panel {
+  display: grid;
+  gap: 16px;
+  margin-top: 20px;
+  padding: clamp(18px, 4vw, 32px);
+  border: 1px solid var(--line);
+  border-top: 3px solid var(--wine);
+}
+.support-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
 }
 
 @media (min-width: 768px) {

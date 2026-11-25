@@ -1,11 +1,6 @@
 <script setup lang="ts">
-import { CircleCheck } from "@lucide/vue";
 import { demoCoupon } from "~/composables/useTicketCart";
-import {
-  exhibitionPath,
-  findExhibition,
-  newTaiwanDollars,
-} from "~/data/exhibitions";
+import { findExhibition, newTaiwanDollars } from "~/data/exhibitions";
 
 definePageMeta({ key: (route) => route.path });
 const steps = [
@@ -59,9 +54,12 @@ const canProceed = computed(
     count.value > 0 &&
     (step.id !== "payment" || checkout.value.detailsConfirmed),
 );
-const orderExhibition = computed(() =>
-  findExhibition(order.value?.lines[0]?.exhibitionId),
+const orderExhibitions = computed(() =>
+  [...new Set(order.value?.lines.map(({ exhibitionId }) => exhibitionId))].map(
+    (id) => findExhibition(id)!,
+  ),
 );
+const orderExhibition = computed(() => orderExhibitions.value[0]);
 useSeoMeta({ title: step.label, robots: "noindex, nofollow" });
 
 watch(
@@ -129,7 +127,7 @@ async function pay() {
   <div v-if="step.id === 'complete'" class="shell complete-page">
     <section class="complete" aria-labelledby="complete-title">
       <template v-if="order && orderExhibition">
-        <CircleCheck class="complete-icon" :size="44" aria-hidden="true" />
+        <MaterialIcon class="complete-icon" name="complete" :size="44" />
         <h1 id="complete-title">完成訂購</h1>
         <p class="complete-label">您的展覽通過代碼為：</p>
         <p class="complete-code">
@@ -138,22 +136,28 @@ async function pay() {
         <p>
           已完成「{{
             orderExhibition.title
-          }}」的示範購票。選擇「看展去」可回到展覽頁查看通過代碼。
+          }}」的示範購票。選擇「看展去」可開啟線上展間。
         </p>
         <p class="muted">訂單總額 {{ newTaiwanDollars(order.total) }}</p>
         <div class="final-actions">
           <NuxtLink class="button button--outline" to="/exhibitions"
             >繼續瀏覽</NuxtLink
           >
-          <NuxtLink
-            class="button"
-            :to="{
-              path: exhibitionPath(orderExhibition.id),
-              query: { ticket: order.code },
-            }"
+          <NuxtLink class="button" :to="`/visit/${orderExhibition.id}`"
             >看展去</NuxtLink
           >
         </div>
+        <ul
+          v-if="orderExhibitions.length > 1"
+          class="other-visits"
+          aria-label="本次訂購的其他展覽"
+        >
+          <li v-for="exhibit in orderExhibitions.slice(1)" :key="exhibit.id">
+            <NuxtLink class="plain-link" :to="`/visit/${exhibit.id}`"
+              >{{ exhibit.title }}・線上展間</NuxtLink
+            >
+          </li>
+        </ul>
       </template>
       <template v-else>
         <h1 id="complete-title">
@@ -519,6 +523,12 @@ async function pay() {
 }
 .complete-code code {
   font-family: inherit;
+}
+.other-visits {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding-left: 1.25rem;
 }
 .final-actions {
   display: grid;

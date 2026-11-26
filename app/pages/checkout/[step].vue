@@ -124,13 +124,30 @@ async function pay() {
 </script>
 
 <template>
-  <div v-if="step.id === 'complete'" class="shell grid min-h-[calc(100dvh-132px)] items-center py-[42px]">
-    <section class="mx-auto grid w-full max-w-[540px] gap-4" aria-labelledby="complete-title">
+  <div
+    v-if="step.id === 'complete'"
+    class="shell grid min-h-[calc(100dvh-132px)] items-center py-[42px]"
+  >
+    <section
+      class="mx-auto grid w-full max-w-[540px] gap-4"
+      aria-labelledby="complete-title"
+    >
       <template v-if="order && orderExhibition">
-        <MaterialIcon class="justify-self-center text-brand" name="complete" :size="44" />
-        <h1 id="complete-title" class="justify-self-center text-xl font-bold text-brand">完成訂購</h1>
+        <MaterialIcon
+          class="justify-self-center text-brand"
+          name="complete"
+          :size="44"
+        />
+        <h1
+          id="complete-title"
+          class="justify-self-center text-xl font-bold text-brand"
+        >
+          完成訂購
+        </h1>
         <p>您的展覽通過代碼為：</p>
-        <p class="complete-code justify-self-center py-4 text-2xl text-brand [&_code]:font-sans">
+        <p
+          class="complete-code justify-self-center py-4 text-2xl text-brand [&_code]:font-sans"
+        >
           <code>{{ order.code }}</code>
         </p>
         <p>
@@ -160,7 +177,10 @@ async function pay() {
         </ul>
       </template>
       <template v-else>
-        <h1 id="complete-title" class="justify-self-center text-xl font-bold text-brand">
+        <h1
+          id="complete-title"
+          class="justify-self-center text-xl font-bold text-brand"
+        >
           {{ ready ? "目前沒有完成的訂單" : "正在讀取訂單…" }}
         </h1>
         <NuxtLink v-if="ready" class="button button--outline" to="/exhibitions"
@@ -169,19 +189,20 @@ async function pay() {
       </template>
     </section>
   </div>
-  <div v-else class="shell min-h-[calc(100dvh-80px)] pt-[23px]">
+  <div
+    v-else
+    class="shell min-h-[calc(100dvh-80px)] pt-[23px] max-md:data-[details=true]:pt-5"
+    :data-details="step.id === 'details'"
+  >
     <h1 class="sr-only">{{ step.label }}</h1>
-    <ol class="mb-[25px] grid grid-cols-4 wide:w-[calc((100%-30px)*2/3)]" aria-label="訂購步驟">
+    <ol
+      class="mb-[25px] grid grid-cols-4 wide:w-[calc((100%-30px)*2/3)]"
+      aria-label="訂購步驟"
+    >
       <li
         v-for="(entry, i) in steps"
         :key="entry.id"
-        class="
-          relative min-w-0 border-t-2 border-accent-track px-1 pt-2 text-center
-          text-[clamp(.75rem,2.5vw,1rem)] text-muted before:absolute before:-top-[5px]
-          before:left-[calc(50%-4px)] before:size-2 before:rounded-full before:border before:border-accent
-          before:bg-white before:content-[''] data-[reached=true]:border-t-accent
-          data-[reached=true]:before:bg-accent aria-[current=step]:font-bold aria-[current=step]:text-ink
-        "
+        class="relative min-w-0 border-t-2 border-accent-track px-1 pt-2 text-center text-[clamp(.75rem,2.5vw,1rem)] text-muted before:absolute before:-top-[5px] before:left-[calc(50%-4px)] before:size-2 before:rounded-full before:border before:border-accent before:bg-white before:content-[''] data-[reached=true]:border-t-accent data-[reached=true]:before:bg-accent aria-[current=step]:font-bold aria-[current=step]:text-ink"
         :data-reached="i <= index"
         :aria-current="i === index ? 'step' : undefined"
       >
@@ -190,28 +211,24 @@ async function pay() {
     </ol>
     <div
       v-if="canProceed"
-      class="
-        grid min-h-[calc(100dvh-132px)] grid-rows-[auto_auto_1fr_auto] gap-5 pb-[18px]
-        [grid-template-areas:'form'_'totals'_'lines'_'actions']
-        max-wide:data-[review=true]:grid-rows-[1fr_auto_auto]
-        max-wide:data-[review=true]:[grid-template-areas:'lines'_'totals'_'actions']
-        wide:min-h-[calc(100dvh-164px)] wide:grid-cols-[minmax(0,2.08fr)_minmax(0,1fr)]
-        wide:grid-rows-[1fr_auto_auto] wide:gap-x-[30px] wide:gap-y-3
-        wide:[grid-template-areas:'lines_form'_'lines_totals'_'actions_actions']
-      "
+      class="grid min-h-[calc(100dvh-132px)] grid-rows-[auto_auto_1fr_auto] gap-5 pb-[18px] [grid-template-areas:'form'_'totals'_'lines'_'actions'] max-wide:data-[review=true]:grid-rows-[1fr_auto_auto] max-wide:data-[review=true]:[grid-template-areas:'lines'_'totals'_'actions'] wide:min-h-[calc(100dvh-164px)] wide:grid-cols-[minmax(0,2.08fr)_minmax(0,1fr)] wide:grid-rows-[1fr_auto_auto] wide:gap-x-[30px] wide:gap-y-3 wide:[grid-template-areas:'lines_form'_'lines_totals'_'actions_actions'] max-md:data-[details=true]:gap-y-6 max-md:data-[details=true]:pb-0"
       :data-review="step.id === 'cart'"
+      :data-details="step.id === 'details'"
     >
       <div class="min-w-0 [grid-area:lines]">
-        <CartItems :editable="step.id === 'cart'" />
+        <CartItems
+          :editable="step.id === 'cart'"
+          :details="step.id === 'details'"
+        />
       </div>
       <form
         v-if="step.id === 'details'"
         id="checkout-form"
-        class="grid gap-3.5 self-start [grid-area:form]"
+        class="grid gap-3.5 self-start [grid-area:form] max-md:gap-5 max-md:pb-[35px] max-md:[&_.field>input]:min-h-[38px] max-md:[&_.field>input]:py-1.5"
         @submit.prevent="saveDetails"
         @input="clearError"
       >
-        <h2 class="text-xl font-bold">訂購人資訊</h2>
+        <h2 class="text-xl font-bold max-md:-mb-[7px]">訂購人資訊</h2>
         <label class="field"
           >Email
           <input
@@ -256,8 +273,8 @@ async function pay() {
             :aria-invalid="invalid === 'coupon' || undefined"
           />
         </label>
-        <p class="-mt-2.5 text-right text-sm text-brand">
-          {{ couponIsValid ? "已套用優惠，折抵 NT$50" : "示範優惠碼 TG87526" }}
+        <p class="-mt-2.5 text-right text-sm text-brand max-md:-mt-4">
+          {{ couponIsValid ? "優惠碼已生效" : "示範優惠碼 TG87526" }}
         </p>
         <p v-if="error" class="form-error" role="alert">{{ error }}</p>
       </form>
@@ -303,7 +320,9 @@ async function pay() {
             :aria-invalid="invalid === 'code' || undefined"
           />
         </label>
-        <div class="flex flex-wrap items-center justify-between gap-1.5 text-sm text-muted">
+        <div
+          class="flex flex-wrap items-center justify-between gap-1.5 text-sm text-muted"
+        >
           <p>示範付款，請使用測試卡。</p>
           <button
             type="button"
@@ -315,10 +334,12 @@ async function pay() {
         </div>
         <p v-if="error" class="form-error" role="alert">{{ error }}</p>
       </form>
-      <dl class="
-        grid gap-1.5 self-end [grid-area:totals] [&>div]:flex [&>div]:justify-between [&>div]:gap-2
-        [&_dd]:text-right data-[review=true]:text-lg data-[review=true]:font-bold
-      " :data-review="step.id === 'cart'" aria-label="金額摘要">
+      <dl
+        class="grid gap-1.5 self-end [grid-area:totals] [&>div]:flex [&>div]:justify-between [&>div]:gap-2 [&_dd]:text-right data-[review=true]:text-lg data-[review=true]:font-bold max-md:data-[details=true]:gap-1"
+        :data-review="step.id === 'cart'"
+        :data-details="step.id === 'details'"
+        aria-label="金額摘要"
+      >
         <div>
           <dt>小計</dt>
           <dd>{{ newTaiwanDollars(subtotal) }}</dd>
@@ -340,10 +361,10 @@ async function pay() {
           </div>
         </template>
       </dl>
-      <div class="
-        grid grid-cols-2 gap-[15px] bg-white pt-1.5 pb-[40px] [grid-area:actions]
-        wide:grid-cols-[minmax(0,2.08fr)_minmax(0,1fr)] wide:gap-[30px] wide:p-0
-      ">
+      <div
+        class="grid grid-cols-2 gap-[15px] bg-white pt-1.5 pb-[40px] [grid-area:actions] wide:grid-cols-[minmax(0,2.08fr)_minmax(0,1fr)] wide:gap-[30px] wide:p-0 max-md:data-[details=true]:pt-6"
+        :data-details="step.id === 'details'"
+      >
         <NuxtLink
           v-if="step.id === 'details'"
           class="button button--outline wide:min-w-[125px] wide:justify-self-start"
@@ -362,7 +383,12 @@ async function pay() {
           to="/checkout/details"
           >下一步</NuxtLink
         >
-        <button v-else type="submit" class="button col-start-2" form="checkout-form">
+        <button
+          v-else
+          type="submit"
+          class="button col-start-2"
+          form="checkout-form"
+        >
           {{ step.id === "payment" ? "完成訂購" : "下一步" }}
         </button>
       </div>

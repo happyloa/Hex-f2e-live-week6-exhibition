@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { categories } from "~/data/exhibitions";
+const emit = defineEmits<{ select: [] }>();
 const route = useRoute();
 const active = computed(() =>
   route.path === "/exhibitions" ? route.query.category : undefined,
@@ -16,6 +17,7 @@ const active = computed(() =>
           class="grid min-h-[51px] min-w-[83px] items-center border-y-2 border-transparent px-[15px] whitespace-nowrap text-muted no-underline hover:border-b-accent hover:text-brand md:min-h-[49px] md:min-w-0 md:place-items-center md:px-[clamp(12px,2vw,26px)] md:text-[.9375rem] focus-visible:border-b-accent focus-visible:text-brand focus-visible:-outline-offset-3 [&[aria-current=page]]:border-b-accent [&[aria-current=page]]:text-brand"
           :to="{ path: '/exhibitions', query: { category: category.id } }"
           :aria-current="active === category.id ? 'page' : undefined"
+          @click="emit('select')"
         >
           {{ category.label }}
         </NuxtLink>

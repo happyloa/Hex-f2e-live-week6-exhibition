@@ -24,17 +24,25 @@ useSeoMeta({
       v-reveal
       class="group/band text-brand odd:bg-brand odd:text-white"
     >
-      <div class="
-        shell grid gap-3.5 pt-7 pb-8 wide:min-h-[417px]
-        wide:grid-cols-[minmax(260px,350px)_minmax(0,445px)_60px] wide:content-center wide:items-start
-        wide:gap-[30px] wide:py-[65px] wide:group-even/band:justify-end
-      ">
+      <div
+        class="shell grid gap-3.5 pt-7 pb-8 max-md:gap-0 max-md:py-11 wide:min-h-[417px] wide:grid-cols-[minmax(260px,350px)_minmax(0,445px)_60px] wide:content-center wide:items-start wide:gap-[30px] wide:py-[65px] wide:group-even/band:justify-end"
+      >
         <div class="wide:pt-[5px]">
-          <h2 class="text-[clamp(1.65rem,4.5vw,2.5rem)] leading-[1.23] font-bold">
-            <NuxtLink class="no-underline hover:underline" :to="exhibitionPath(item.id)">{{ item.title }}</NuxtLink>
+          <h2
+            class="text-[clamp(1.65rem,4.5vw,2.5rem)] leading-[1.23] font-bold max-md:text-[28px]/[42px]"
+          >
+            <NuxtLink
+              class="no-underline hover:underline"
+              :to="exhibitionPath(item.id)"
+              >{{ item.title }}</NuxtLink
+            >
           </h2>
-          <p class="mt-2.5 wide:mt-[25px]">{{ item.description }}</p>
-          <NuxtLink class="mt-1.5 inline-flex min-h-control items-center font-semibold underline underline-offset-[.23em]" :to="exhibitionPath(item.id)"
+          <p class="mt-2 font-medium md:mt-2.5 md:font-normal wide:mt-[25px]">
+            {{ item.description }}
+          </p>
+          <NuxtLink
+            class="mt-1.5 hidden min-h-control items-center font-semibold underline underline-offset-[.23em] md:inline-flex"
+            :to="exhibitionPath(item.id)"
             >展覽詳情<span class="sr-only">：{{ item.title }}</span></NuxtLink
           >
         </div>
@@ -44,19 +52,18 @@ useSeoMeta({
           :aria-label="`查看${item.title}`"
         >
           <ExhibitImage
-            class="aspect-[1.75] w-full object-cover wide:aspect-[445/285]"
+            class="aspect-[445/285] w-full object-cover md:max-wide:aspect-[1.75]"
             :name="item.image"
             :alt="item.alt"
             sizes="(min-width: 900px) 445px, (min-width: 768px) calc(100vw - 48px), calc(100vw - 30px)"
             :priority="index === 0"
           />
         </NuxtLink>
-        <p class="
-          row-start-2 flex items-center gap-2 font-bold wide:row-auto wide:w-[3.5ch] wide:flex-col
-          wide:items-start wide:gap-0 wide:self-end wide:text-xl
-        ">
-          <span>{{ item.start }}</span
-          ><span aria-hidden="true">—</span><span>{{ item.end }}</span>
+        <p
+          class="row-start-2 flex items-center gap-2 font-medium max-md:mt-4 max-md:mb-2 md:font-bold wide:row-auto wide:w-[3.5ch] wide:flex-col wide:items-start wide:gap-0 wide:self-end wide:text-xl"
+        >
+          <span>{{ item.start }}</span><span aria-hidden="true">—</span
+          ><span>{{ item.end }}</span>
         </p>
       </div>
     </article>

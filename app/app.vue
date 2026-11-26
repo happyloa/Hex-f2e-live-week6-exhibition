@@ -10,6 +10,7 @@ const checkout = computed(() =>
     route.path,
   ),
 );
+const exhibitionList = computed(() => route.path === "/exhibitions");
 const utilityPage = computed(
   () =>
     route.path === "/favorites" ||
@@ -35,8 +36,11 @@ onBeforeUnmount(() => window.removeEventListener("storage", syncLocalStorage));
 
 <template>
   <a href="#main-content" class="skip-link">跳至主要內容</a>
-  <SiteHeader />
-  <CategoryNav v-if="!checkout && route.path !== '/'" />
+  <SiteHeader :mobile-categories="exhibitionList" />
+  <CategoryNav
+    v-if="!checkout && route.path !== '/'"
+    :class="{ 'hidden md:block': exhibitionList }"
+  />
   <main id="main-content" tabindex="-1">
     <NuxtPage />
   </main>

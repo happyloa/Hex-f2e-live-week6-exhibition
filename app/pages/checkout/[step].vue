@@ -341,7 +341,7 @@ async function pay() {
         </template>
       </dl>
       <div class="
-        sticky bottom-0 z-1 grid grid-cols-2 gap-4 bg-white pt-1.5 pb-2.5 [grid-area:actions] wide:static
+        grid grid-cols-2 gap-[15px] bg-white pt-1.5 pb-[40px] [grid-area:actions]
         wide:grid-cols-[minmax(0,2.08fr)_minmax(0,1fr)] wide:gap-[30px] wide:p-0
       ">
         <NuxtLink

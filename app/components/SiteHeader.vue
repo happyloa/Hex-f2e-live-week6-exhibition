@@ -5,8 +5,8 @@ const { name } = useDemoAccount();
 
 <template>
   <header class="border-b border-divider bg-white">
-    <div class="shell relative grid h-[55px] place-items-center md:h-[79px]">
-      <NuxtLink class="text-[clamp(1.25rem,3vw,1.5rem)] text-brand no-underline" to="/" aria-label="EXHIBINECTION 首頁"
+    <div class="shell relative grid h-[59px] place-items-center md:h-[79px]">
+      <NuxtLink class="text-[22px] md:text-2xl text-brand no-underline" to="/" aria-label="EXHIBINECTION 首頁"
         >EXHIBINECTION</NuxtLink
       >
       <div class="absolute -right-[5px] flex items-center gap-[13px]">

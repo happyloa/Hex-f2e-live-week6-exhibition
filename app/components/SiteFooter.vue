@@ -18,11 +18,7 @@ function subscribe() {
   <footer>
     <section
       v-if="newsletter"
-      class="
-        relative isolate grid min-h-[400px] items-end bg-newsletter-bg text-white after:absolute
-        after:inset-0 after:-z-10 after:[background:linear-gradient(90deg,#0008,transparent_78%)]
-        after:content-['']
-      "
+      class="relative isolate grid min-h-[400px] items-end bg-newsletter-bg text-white after:absolute after:inset-0 after:-z-10 after:[background:linear-gradient(90deg,#0008,transparent_78%)] after:content-['']"
       aria-labelledby="newsletter-title"
     >
       <ExhibitImage
@@ -31,11 +27,11 @@ function subscribe() {
         class="absolute inset-0 -z-20 size-full object-cover object-[51%_center] md:object-[center_46%]"
       />
       <div v-reveal class="shell pt-[26px] pb-9">
-        <h2 id="newsletter-title" class="section-heading">
+        <h2 id="newsletter-title" class="section-heading max-md:leading-9">
           想收到最新消息嗎？<br />快訂閱我們！
         </h2>
         <form
-          class="mt-3 flex w-full max-w-[350px]"
+          class="mt-[22px] flex min-h-12 w-full max-w-[350px] md:mt-3"
           @submit.prevent="subscribe"
         >
           <label class="sr-only" for="newsletter-email">電子信箱</label>
@@ -62,20 +58,18 @@ function subscribe() {
       </div>
     </section>
     <div
-      class="
-        shell flex flex-col flex-wrap items-start gap-[5px] py-5 md:flex-row md:items-center md:gap-x-4
-        md:gap-y-1
-      "
+      class="shell flex flex-col flex-wrap items-start py-2 md:min-h-20 md:flex-row md:items-center md:gap-x-4 md:py-5 md:gap-y-1"
     >
-      <NuxtLink to="/" class="text-[1.375rem] no-underline"
+      <NuxtLink
+        to="/"
+        class="text-[1.375rem] leading-6 no-underline md:leading-normal"
         >EXHIBINECTION</NuxtLink
       >
-      <p class="text-sm">© 2020. All Rights Reserved.</p>
+      <p class="text-sm leading-5 md:leading-normal">
+        © 2020. All Rights Reserved.
+      </p>
       <nav
-        class="
-          mt-[3px] -ml-1.5 flex gap-3.5 md:mt-0 md:ml-auto [&_a]:text-muted [&_a]:no-underline
-          [&_a:hover]:text-brand [&_a:hover]:underline
-        "
+        class="flex gap-3.5 text-xs leading-[15px] md:ml-auto md:text-base md:leading-normal [&_a]:text-muted [&_a]:no-underline [&_a:hover]:text-brand [&_a:hover]:underline"
         aria-label="帳戶與收藏"
       >
         <NuxtLink to="/favorites">我的收藏</NuxtLink>

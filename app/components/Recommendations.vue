@@ -20,22 +20,14 @@ const recommended = computed(() =>
 
 <template>
   <section
-    class="shell pt-[clamp(24px,5vw,60px)] pb-[clamp(28px,4.4vw,56px)]"
+    class="shell pt-[clamp(24px,5vw,60px)] pb-6"
     aria-labelledby="recommend-title"
   >
-    <h2 id="recommend-title" class="section-heading">猜你也喜歡…</h2>
+    <h2 id="recommend-title" class="section-heading text-[2rem] leading-[48px]">
+      猜你也喜歡...
+    </h2>
     <Swiper
-      class="
-        recommend-list mt-5 [--swiper-pagination-color:var(--color-brand)] md:pb-8 desktop:ml-[8.5%]
-        [&_.swiper-wrapper]:m-0 [&_.swiper-wrapper]:list-none [&_.swiper-wrapper]:p-0
-        md:[&_.swiper-slide]:w-[min(350px,44%)] md:[&_.swiper-pagination-bullet]:mx-0
-        md:[&_.swiper-pagination-bullet]:size-6 md:[&_.swiper-pagination-bullet]:border-8
-        md:[&_.swiper-pagination-bullet]:border-white max-md:[&_.swiper-wrapper]:grid
-        max-md:[&_.swiper-wrapper]:h-auto max-md:[&_.swiper-wrapper]:gap-[18px]
-        max-md:[&_.swiper-wrapper]:transform-none! max-md:[&_.swiper-slide]:m-0!
-        max-md:[&_.swiper-slide]:w-full max-md:[&_.swiper-slide:nth-child(n+4)]:hidden
-        max-md:[&_.swiper-pagination]:hidden
-      "
+      class="recommend-list mt-2 [--swiper-pagination-color:var(--color-brand)] md:mt-6 md:pb-8 desktop:ml-[8.5%] [&_.swiper-wrapper]:m-0 [&_.swiper-wrapper]:list-none [&_.swiper-wrapper]:p-0 md:[&_.swiper-slide]:w-[min(350px,44%)] md:[&_.swiper-pagination-bullet]:mx-0 md:[&_.swiper-pagination-bullet]:size-6 md:[&_.swiper-pagination-bullet]:border-8 md:[&_.swiper-pagination-bullet]:border-white max-md:[&_.swiper-wrapper]:grid max-md:[&_.swiper-wrapper]:h-auto max-md:[&_.swiper-wrapper]:gap-4 max-md:[&_.swiper-wrapper]:transform-none! max-md:[&_.swiper-slide]:m-0! max-md:[&_.swiper-slide]:w-full max-md:[&_.swiper-slide:nth-child(n+4)]:hidden max-md:[&_.swiper-pagination]:hidden"
       wrapper-tag="ul"
       :modules="modules"
       :enabled="false"
@@ -72,11 +64,13 @@ const recommended = computed(() =>
             draggable="false"
           />
           <h3
-            class="pt-1 text-lg font-bold group-hover:text-brand group-hover:underline"
+            class="pt-2 text-xl leading-[30px] font-bold group-hover:text-brand group-hover:underline"
           >
             {{ item.title }}
           </h3>
-          <p class="mt-0.5">${{ item.price }}</p>
+          <p class="mt-1 text-xl leading-[30px]">
+            ${{ item.price }}
+          </p>
         </NuxtLink>
       </SwiperSlide>
     </Swiper>
